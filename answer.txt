@@ -1,0 +1,16 @@
+=========================================
+   SO SANH HIEU NANG TRUY VAN (30000 LAN)
+=========================================
+So luong diem: 100000
+Thoi gian xay dung cay (Insert): 44 ms
+-----------------------------------------
+BO NHO TIEU THU (RAM):
+ - Duyet trau (Brute Force): 1.53 MB
+ - R-Tree: 4.24 MB
+-----------------------------------------
+TONG THOI GIAN 30000 LUOT SEARCH:
+ - Duyet trau (Brute Force): 10332 ms
+ - R-Tree: 136.75 ms (136751 us)
+-----------------------------------------
+=> R-Tree nhanh hon Duyet trau x75.55 lan
+=========================================
