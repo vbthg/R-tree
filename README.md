@@ -1,0 +1,2 @@
+# R-tree
+This repository contains a simple and lightweight implementation of an R-tree data structure. It supports fundamental spatial operations including Insert, Delete, and Search on two-dimensional (2D) data.  The project is designed for educational purposes and serves as a clear reference for understanding how R-trees manage spatial indexing and efficiently handle geometric queries. The implementation focuses on clarity and simplicity, making it easy to read, modify, and extend.
