@@ -61,40 +61,51 @@ Nếu bạn sử dụng các IDE như **Code::Blocks** hoặc **Visual Studio**:
 2. Thêm 3 file `RTree.h`, `RTree.cpp` và `main.cpp` vào dự án.
 3. Bấm `Build and Run` (thường là phím F9 hoặc F5).
 
-### 3. Ví dụ sử dụng (Quick Start)
+## 📂 Hướng dẫn chạy Test và Đánh giá hiệu năng (Benchmarking)
 
-Dưới đây là trích đoạn cách bạn có thể sử dụng lớp `RTree` trong project của mình:
+Dự án này tích hợp sẵn một hệ thống đánh giá hiệu năng tự động. Chương trình sẽ tiến hành đọc tập dữ liệu tọa độ, thực hiện **30.000 truy vấn (Window Queries)** và so sánh trực tiếp cả hai khía cạnh **Thời gian thực thi** và **Bộ nhớ tiêu thụ** giữa cấu trúc R-Tree và phương pháp Duyệt trâu (Brute Force).
+
+### 1. Tổ chức thư mục (Directory Structure)
+Trước khi chạy, hãy đảm bảo bạn đã đặt các file dataset được sinh tự động vào bên trong thư mục `datasets/` cùng cấp với mã nguồn:
+
+```text
+📦 Project_Folder
+ ┣ 📂 datasets
+ ┃ ┣ 📜 dataset_10.txt
+ ┃ ┣ 📜 dataset_1000.txt
+ ┃ ┣ 📜 dataset_10000.txt
+ ┃ ┣ 📜 dataset_100000.txt
+ ┃ ┗ 📜 dataset_1000000.txt
+ ┣ 📜 R-Tree.h
+ ┣ 📜 R-Tree.cpp
+ ┗ 📜 main.cpp
+```
+
+### 2. Cấu hình lượng điểm cần Test
+Mặc định, file `main.cpp` đang cấu hình chạy với file `dataset_10.txt`. Để đánh giá với các mốc dữ liệu lớn hơn, bạn hãy mở file `main.cpp`, tìm đến dòng cấu hình đầu tiên trong hàm `main()` và thay đổi giá trị biến `numStr`:
 
 ```cpp
-#include <iostream>
-#include "RTree.h"
-
-int main() {
-    // 1. Khởi tạo cây R-Tree với sức chứa tối đa của mỗi nút là 4
-    RTree tree(4);
-
-    // 2. Chèn các điểm dữ liệu (tọa độ x, y)
-    tree.insert({1.0, 5.0});
-    tree.insert({4.0, 4.0});
-    tree.insert({7.0, 6.0});
-    
-    // 3. Xóa một điểm
-    tree.remove({4.0, 4.0});
-
-    // 4. Tạo một khung truy vấn hình chữ nhật (minX, minY, maxX, maxY)
-    Rect queryBox = {0.0, 0.0, 5.0, 6.0};
-    
-    // 5. Tìm tất cả các điểm nằm trong khung này
-    std::vector<Point> results = tree.rangeQuery(queryBox);
-    
-    std::cout << "So luong diem tim thay: " << results.size() << "\n";
-    for (const auto& p : results) {
-        std::cout << "-> Diem (" << p.x << ", " << p.y << ")\n";
-    }
-
-    return 0;
-}
+// Thay "10" bằng các mốc số lượng điểm tương ứng mà bạn muốn test 
+// (Ví dụ: "1000", "100000", "1000000")
+string numStr = "100000"; 
+string inputPath = "datasets/dataset_" + numStr + ".txt";
 ```
+
+### 3. Biên dịch và Thực thi (Compile & Run)
+Mở Terminal (hoặc Command Prompt) tại thư mục chứa project và biên dịch mã nguồn. Hãy đảm bảo gộp chung file thư viện `R-Tree.cpp`:
+
+**Đối với Windows / Linux / macOS:**
+```bash
+g++ main.cpp R-Tree.cpp -o benchmark -std=c++11
+./benchmark   # (Hoặc chạy benchmark.exe trên Windows)
+```
+
+### 4. Đọc kết quả phân tích (Reading the Results)
+Chương trình sử dụng `freopen` để ẩn đầu ra trên màn hình console và ghi toàn bộ kết quả phân tích vào file `answer.txt`. Mở file này lên, bạn sẽ thu thập được các số liệu sau để đưa vào biểu đồ:
+- **Thời gian xây dựng cây (Insert):** Mức chi phí thời gian ban đầu để xây dựng cấu trúc không gian R-Tree.
+- **Bộ nhớ tiêu thụ (RAM):** Lượng RAM mà R-Tree sử dụng so với mảng tuyến tính thông thường (được đo lường chính xác bằng cách ghi đè toán tử `new/delete`).
+- **Thời gian Search:** Tổng thời gian hoàn thành 30.000 truy vấn.
+- **Hệ số tăng tốc (Speedup):** Tỉ lệ cho thấy R-Tree tối ưu gấp bao nhiêu lần so với Duyệt trâu trên quy mô dữ liệu hiện tại.
 
 ---
 
