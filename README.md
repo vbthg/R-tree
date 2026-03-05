@@ -101,7 +101,7 @@ g++ main.cpp R-Tree.cpp -o benchmark -std=c++11
 ```
 
 ### 4. Đọc kết quả phân tích (Reading the Results)
-Chương trình sử dụng `freopen` để ẩn đầu ra trên màn hình console và ghi toàn bộ kết quả phân tích vào file `answer.txt`. Mở file này lên, bạn sẽ thu thập được các số liệu sau để đưa vào biểu đồ:
+Chương trình sử dụng luồng đọc/ghi iostream để ẩn đầu ra trên màn hình console và ghi toàn bộ kết quả phân tích vào file `answer.txt`. Mở file này lên, bạn sẽ thu thập được các số liệu sau để đưa vào biểu đồ:
 - **Thời gian xây dựng cây (Insert):** Mức chi phí thời gian ban đầu để xây dựng cấu trúc không gian R-Tree.
 - **Bộ nhớ tiêu thụ (RAM):** Lượng RAM mà R-Tree sử dụng so với mảng tuyến tính thông thường (được đo lường chính xác bằng cách ghi đè toán tử `new/delete`).
 - **Thời gian Search:** Tổng thời gian hoàn thành 30.000 truy vấn.
