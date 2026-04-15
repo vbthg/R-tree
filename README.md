@@ -126,5 +126,50 @@ While this project is optimized for learning, professional C++ environments ofte
 - **[Boost.Geometry](https://www.boost.org/doc/libs/release/libs/geometry/doc/html/index.html):** Features a high-performance `bgi::rtree` with R*-Tree support.
 - **libspatialindex:** A robust C++ library for complex spatial indexing tasks.
 
+### 1. Installation
+Boost is a **header-only** library for its R-Tree module, meaning no compilation is required.
+
+- **Option A (Manual):** Download the Boost source from [boost.org](https://www.boost.org/) and add the `boost/` folder to your compiler's include path.
+- **Option B (vcpkg):** `vcpkg install boost-geometry`
+- **Option C (Linux/Ubuntu):** `sudo apt-get install libboost-all-dev`
+
+### 2. Usage Example
+This snippet demonstrates the Boost R-Tree using **Quadratic split**:
+
+```cpp
+#include <boost/geometry.hpp>
+#include <boost/geometry/index/rtree.hpp>
+#include <vector>
+
+namespace bg = boost::geometry;
+namespace bgi = boost::geometry::index;
+
+typedef bg::model::point<double, 2, bg::cs::cartesian> Point;
+typedef bg::model::box<Point> Box;
+typedef std::pair<Box, int> Value;
+
+int main()
+{
+    // Initialize R-Tree with Quadratic splitting (max 16 entries per node)
+    bgi::rtree<Value, bgi::quadratic<16>> rtree;
+
+    // Insert data (MBR + ID)
+    Box road(Point(0, 0), Point(2, 2));
+    rtree.insert(std::make_pair(road, 101));
+
+    // Perform a Window Query
+    Box screen(Point(1, 1), Point(4, 4));
+    std::vector<Value> results;
+    rtree.query(bgi::intersects(screen), std::back_inserter(results));
+
+    if(results.size() > 0)
+    {
+        // Handle candidates...
+    }
+
+    return 0;
+}
+```
+
 ---
 *This project serves as a reference for Computer Science students exploring Spatial Data Structures and Algorithm optimization.*
