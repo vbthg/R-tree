@@ -68,11 +68,8 @@ void generateDataset(const std::string& filename, int n, double minRange, double
 }
 
 int main() {
-    // Dataset for N = 100
-    generateDataset("dataset_0000100.txt", 100, 0.0, 1000.0, false);
-
     // Dataset for N = 20,000
-    //generateDataset("dataset_0020000.txt", 20000, 0.0, 5000.0, true);
+    generateDataset("dataset_0020000.txt", 20000, 0.0, 5000.0, true);
 
     return 0;
 }
