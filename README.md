@@ -13,7 +13,15 @@ This project is specifically designed for **educational and illustrative purpose
 - **Performance Benchmarking:** Includes a built-in comparison suite to evaluate speed and memory against the Naive (Brute Force) approach.
 
 ---
+## 👥 Contributors & Responsibilities
 
+This project was developed by a team of three, with clearly defined roles to ensure both performance and reliability:
+
+- **Lead Developer:** Responsible for the core R-Tree logic, spatial algorithms (`SplitNode`, `ChooseSubtree`), and memory tracking system.
+- **Automation Specialist:** Developed the `Benchmark` suite, handled automated directory scanning, and implemented the Markdown reporting engine.
+- **Quality & Integrity Engineer:** Built the `Validator` module, implemented the Brute-Force reference model, and ensured data correctness across all test scales.
+
+- ---
 ## 🧠 About R-Trees
 
 An **R-Tree** (Rectangle-Tree) is a balanced, height-integrated data structure similar to a B-Tree but specialized for indexing multi-dimensional spatial data, such as geographic coordinates, polygons, or UI components.
@@ -50,7 +58,7 @@ The repository is organized into modular files following C++ best practices:
 If you are using a **Terminal / Command Prompt**, navigate to the source directory and run:
 
 ```bash
-g++ main.cpp RTree.cpp -o RTreeApp -std=c++11
+g++ -std=c++17 main.cpp R-Tree.cpp Benchmark.cpp Validator.cpp -o RTreeApp
 ```
 
 Then run the executable:
@@ -79,34 +87,28 @@ Before running the benchmark, ensure your automatically generated datasets are p
  ┃ ┣ 📜 dataset_10000.txt
  ┃ ┣ 📜 dataset_100000.txt
  ┃ ┗ 📜 dataset_1000000.txt
- ┣ 📜 RTree.h
- ┣ 📜 RTree.cpp
+ ┣ 📂 header
+ ┃ ┣ 📜 R-Tree.h
+ ┃ ┣ 📜 Benchmark.h
+ ┃ ┣ 📜 Validator.h
+ ┣ 📂 src
+ ┃ ┣ 📜 R-Tree.cpp
+ ┃ ┣ 📜 Benchmark.cpp
+ ┃ ┣ 📜 Validator.cpp
  ┗ 📜 main.cpp
 ```
 
-### 2. Configuring Test Scale
-By default, `main.cpp` is configured for `dataset_10.txt`. To evaluate larger scales, modify the `numStr` variable in the `main()` function:
+We implemented an advanced evaluation system to stress-test the R-Tree under various loads.
 
-```cpp
-// Change "10" to the desired dataset scale 
-// (e.g., "1000", "100000", "1000000")
-string numStr = "1000000"; 
-string inputPath = "datasets/dataset_" + numStr + ".txt";
-```
+### 1. Data Integrity Validation
+Before benchmarking, the system runs a **Correctness Check** on a sample dataset. It compares the R-Tree's `rangeQuery` results with a `bruteForceSearch`. 
+- **Point Sorting:** Since spatial queries may return points in different orders, the `Validator` sorts both result sets to ensure a bit-for-bit match.
 
-### 3. Execution
-Compile and link both files:
-```bash
-g++ main.cpp RTree.cpp -o benchmark -std=c++11
-./benchmark
-```
-
-### 4. Reading Results
-The program suppresses console output for speed and writes all analysis to `answer.txt`. Open this file to view:
-- **Build Time (Insert):** The initial overhead for constructing the spatial index.
-- **Memory Usage (RAM):** Precise measurement of R-Tree's footprint vs. a linear array (tracked via `new/delete` overrides).
-- **Search Time:** Total time for 30,000 queries.
-- **Speedup Factor:** How many times faster the R-Tree is compared to Brute Force at the current scale.
+### 2. Performance Reporting
+The `Benchmark` module automatically iterates through all `.txt` files in the `datasets/` folder and generates a `BENCHMARK_REPORT.md`. This report includes:
+- **Build Time:** Time taken to construct the tree.
+- **Query Latency:** Average time per query (measured in microseconds $us$).
+- **Memory Footprint:** Peak RAM usage during execution.
 
 ---
 
