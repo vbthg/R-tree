@@ -1,0 +1,5135 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%--CÁC LỆNH KHAI BÁO HỘP VỚI tcolorbox--%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[most]{tcolorbox}
+\usepackage[tikz]{bclogo}
+\usepackage{varwidth} %thêm vào khai báo gói
+\usepackage{tikz}
+\usetikzlibrary{calc,
+    backgrounds,
+    angles,
+    shadows,
+    decorations.shapes,
+    shapes.geometric,
+    shapes,
+    decorations.pathmorphing,
+    shadows.blur}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\def\loxo{%
+    \tikzpicture[transform shape,scale=0.5]
+    \node [circle,scale=1.2,draw,fill=gray!25](1){};
+    \foreach \i in {0,2}
+        {
+        \draw [line width=.4mm] ([shift={(-0.\i,-.08)}]1.north east) arc(-40:-338:1.3mm and 5.3mm);
+        }
+    \endtikzpicture}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%varwidth boxed title* ảnh hưởng đến màu coltitle%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\newtcolorbox{mybox}[2][]{%
+    breakable,
+    before skip=4mm,
+    %after skip=2mm,
+    %top=1mm,
+    colframe=teal,
+    fonttitle=\bfseries\color{purple},
+    attach boxed title to top center=
+        {yshift=-0.25mm-\tcboxedtitleheight/2,
+            yshifttext=2mm-\tcboxedtitleheight/2},
+    boxed title style={boxrule=0.5mm,
+        frame code={\path[tcb fill frame]
+            ([xshift=-4mm]frame.west)
+            -- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+            -- (frame.south east) -- (frame.south west) -- cycle;},
+        interior code={\path[tcb fill interior]
+        ([xshift=-2mm]interior.west)
+        -- (interior.north west)
+        -- (interior.north east)
+        -- ([xshift=2mm]interior.east)
+        -- (interior.south east)
+        -- (interior.south west)-- cycle;},
+            },
+    title style={left color=purple,right color=blue},
+    frame style={right color=purple,left color=blue},
+    drop lifted shadow=blue,
+    colbacktitle=white,
+    enhanced,
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{myboxx}[2][]{%
+    breakable,
+    enhanced,
+    detach title,
+    blanker,
+    %title={Theorem},
+    coltitle=white,
+    boxsep=3mm,
+    top=2mm,
+    left=2mm,
+    right=2mm,
+    before skip=1cm,
+    after skip=0.6cm,
+    overlay={
+        \scoped[on background layer]{
+        \draw[fill=red!60!blue!3,draw=none](interior.north west)rectangle(interior.south east);
+        \draw[red!60!blue](interior.north west)|-(interior.south east);},
+        \node[anchor=west,font=\bfseries,
+          scale=1.2, above right, fill=darkraspberry, xshift=-2mm, yshift=-2mm, drop shadow] (1) at (interior.north west){\tcbtitle};
+           },
+    overlay first={
+        \scoped[on background layer]{
+        \draw[fill=red!60!blue!3,draw=none](interior.north west)rectangle(interior.south east);
+        \draw[red!60!blue](interior.north west)--(interior.south west);},
+        \node[anchor=west,font=\large\bfseries,
+         scale=1.2, above right, fill=red!60!blue, xshift=-2mm, yshift=-2mm, drop shadow] (1) at (interior.north west){\tcbtitle};
+          },
+    overlay middle= {
+        \draw[fill=red!60!blue!3,draw=none](interior.north west)rectangle(interior.south east);
+        \draw[red!60!blue](interior.north west)--(interior.south west);
+        },
+    overlay last= {
+        \draw[fill=red!60!blue!3,draw=none](interior.north west)rectangle(interior.south east);
+        \draw[red!60!blue](interior.north west)|-(interior.south east);
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbone}[2][]{
+    enhanced,
+    breakable,
+    before skip=2mm,
+    after skip=2mm,
+    top=2mm,
+    colback=mygray,colframe=blue,boxrule=0.2mm,
+    attach boxed title to top center={xshift=0cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=red]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=blue, bottom color=blue, middle color=blue!50]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    drop lifted shadow,
+    fonttitle=\bfseries,
+    title=#2,#1
+    }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbtwo}[2][]{%
+    breakable,
+    top=5mm,
+    enhanced,
+    before skip=2mm,
+    after skip=2mm,
+    boxsep=3mm,
+    colback=mygray,
+    %coltitle=red,
+    colframe=blue,
+    boxrule=0.2mm,
+    %varwidth boxed title=-3cm,
+    attach boxed title to top left={
+        xshift=5mm,
+        yshift=-\tcboxedtitleheight+1mm
+        },
+    boxrule=.5pt,
+    boxed title style={
+        interior empty,
+        frame code={
+            \path[fill=red]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=blue, bottom color=blue, middle color=blue!50]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                }},
+    drop lifted shadow,
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbthree}[2][]{%
+    breakable,
+    top=1cm,
+    enhanced,
+    before skip=5mm,
+    after skip=5mm,
+    boxsep=3mm,
+    colback=whitesmoke,
+    coltitle=white,
+    attach boxed title to top left={
+        xshift=5mm,
+        yshift=-\tcboxedtitleheight
+        },
+    boxrule=.5pt,
+    boxed title style={
+        interior empty,
+        frame code={
+             \fill([xshift=1mm]frame.north east)arc(180:0:1mm)([xshift=-1mm]frame.north west)arc(0:180:1mm);
+             \path[right color=cinnabar,
+                left color=cinnabar,
+                middle color=cinnabar!80] ([shift={(-.2,.1)}]frame.north west)--([shift={(.2,.1)}]frame.north east)[rounded corners=1mm]--([xshift=.1cm]frame.north east)--(frame.south east)--(frame.south west)--([xshift=-.1cm]frame.north west)[sharp corners]--cycle;}},
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\newtcolorbox{tcbloxo}[2]{%
+    enhanced,
+    breakable,
+    before skip=0.5cm,
+    after skip=0.5cm,
+    top=0.5cm,
+    bottom=0.25cm,
+    colback=mygray,
+    colframe=black,
+    boxrule=1pt,
+    drop fuzzy shadow,
+    attach boxed title to top center={
+        yshift*=1mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=#2!30!black]
+            ([yshift=-1mm,xshift=-1mm]frame.north west)
+            arc[start angle=0,end angle=180,radius=1mm]
+            ([yshift=-1mm,xshift=1mm]frame.north east)
+            arc[start angle=180,end angle=0,radius=1mm];
+            \path[fill=#2]
+            ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+            [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+            -- (frame.south east)--(frame.south)[sharp corners]--([xshift=-1mm,yshift=-2mm]frame.south)[rounded corners=1mm]--([xshift=-2mm]frame.south)[rounded corners=1mm]--(frame.south west)
+            --([xshift=-1mm,yshift=-1mm]frame.north west)
+            [sharp corners]-- cycle;
+            },
+        interior engine=empty,
+        },
+    overlay unbroken and first={
+        \foreach \i in {0.1,0.2,...,0.9}
+            {
+            \node at ($([yshift=-2.4mm,xshift=2mm]title.north east)!\i!([yshift=-1.4mm]frame.north east)$){\loxo};
+            }
+        \foreach \i in {0.1,0.2,...,0.9}
+            {
+            \node at ($([yshift=-2.4mm,xshift=-2mm]title.north west)!\i!([yshift=-1.4mm]frame.north west)$){\loxo};
+            }
+        },
+    fonttitle= \bfseries\selectfont,
+    title=#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\loxoh{%
+    \tikzpicture[transform shape,scale=0.5]
+    \node[circle,scale=1.2,draw=mycyan,fill=xamnhat](1){};
+    \foreach \i in {0,2}{
+    \draw[mycyan,line width=.3mm]([shift={(-0.\i,-.08)}]1.north east)arc(-40:-338:1.3mm and 5.3mm);}
+    \endtikzpicture}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbloxoh}[2]{
+    enhanced,
+    breakable,
+    before skip=0.5cm,
+    after skip=0.5cm,
+    top=0.25cm,
+    bottom=0.25cm,
+    colback=xamnhat,
+    colframe=mycyan,
+    boxrule=1pt,
+    drop fuzzy shadow,
+    attach boxed title to top center={
+        yshift*=1mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \draw[color=mycyan,thick,fill=#2!30!black]
+            ([yshift=-1mm,xshift=-1mm]frame.north west)
+            arc[start angle=0,end angle=180,radius=1mm]
+            ([yshift=-1mm,xshift=1mm]frame.north east)
+            arc[start angle=180,end angle=0,radius=1mm];
+            \draw[color=mycyan,thick,fill=#2]
+            ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+            [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+            -- (frame.south east)--(frame.south)[sharp corners]--(frame.south west)
+            --([xshift=-1mm,yshift=-1mm]frame.north west)
+            [sharp corners]-- cycle;
+            },
+        interior engine=empty
+    },
+    overlay unbroken and first={
+        \foreach \i in {0.1,0.2,...,0.9}
+            {
+            \node at ($([yshift=-2.4mm,xshift=2mm]title.north east)!\i!([yshift=-1.4mm]frame.north east)$){\loxoh};
+            }
+        \foreach \i in {0.1,0.2,...,0.9}
+            {
+            \node at ($([yshift=-2.4mm,xshift=-2mm]title.north west)!\i!([yshift=-1.4mm]frame.north west)$){\loxoh};
+            }
+        },
+    fonttitle=\bfseries\selectfont\color{mycyan},
+    title=#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbfour}[2][]{
+    enhanced,
+    breakable,
+    before skip=0.5cm,
+    after skip=0.5cm,
+    top=0.25cm,
+    bottom=0.25cm,
+    colback=xamnhat,
+    colframe=mycyan,
+    boxrule=1pt,
+    drop fuzzy shadow,
+    attach boxed title to top center={
+        yshift*=1mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \draw[color=mycyan,thick,fill=xamnhat!30!black]
+            ([yshift=-1mm,xshift=-1mm]frame.north west)
+            arc[start angle=0,end angle=180,radius=1mm]
+            ([yshift=-1mm,xshift=1mm]frame.north east)
+            arc[start angle=180,end angle=0,radius=1mm];
+            \draw[color=mycyan,thick,fill=xamnhat]
+            ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+            [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+            -- (frame.south east)--(frame.south)[sharp corners]--(frame.south west)
+            --([xshift=-1mm,yshift=-1mm]frame.north west)
+            [sharp corners]-- cycle;
+            },
+        interior engine=empty
+    },
+    overlay unbroken and first={
+        \foreach \i in {0.1,0.2,...,0.9}
+            {
+            \node at ($([yshift=-2.4mm,xshift=2mm]title.north east)!\i!([yshift=-1.4mm]frame.north east)$){\loxoh};
+            }
+        \foreach \i in {0.1,0.2,...,0.9}
+            {
+            \node at ($([yshift=-2.4mm,xshift=-2mm]title.north west)!\i!([yshift=-1.4mm]frame.north west)$){\loxoh};
+            }
+        },
+    fonttitle=\bfseries\selectfont\color{mycyan},
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\newtcolorbox{tcbfive}[2][]{
+    %enhanced,
+    skin=enhanced jigsaw,
+    interior hidden,
+    %colframe=black,
+    %coltext=cyan,
+    before skip=4mm,
+    after skip=1mm,
+    %colback=yellow!20,colframe=black!50,boxrule=0.2mm,
+    attach boxed title to top left={xshift=1cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[draw=white]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=white, bottom color=white, middle color=DarkGreen!20!white]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    drop lifted shadow=yellow,
+    %drop fuzzy shadow=white,
+    fonttitle=\bfseries\color{black},
+    title={#2},#1
+    }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbsix}[2][]{
+    %enhanced,
+    skin=enhanced jigsaw,
+    interior hidden,
+    colframe=white,
+    coltext=white,
+    before skip=4mm,
+    %after skip=2mm,
+    %colback=yellow!20,colframe=black!50,boxrule=0.2mm,
+    attach boxed title to top left={xshift=1cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[draw=white]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=white, bottom color=white, middle color=DarkGreen!20!white]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    drop lifted shadow=yellow,
+    %drop fuzzy shadow=white,
+    fonttitle=\bfseries\color{black},
+    title={#2},#1
+    }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbseven}[2][]{
+    %enhanced,
+    skin=enhanced jigsaw,
+    interior hidden,
+    %colframe=white,
+    coltext=white,
+    colframe=purple,
+    fonttitle=\bfseries\color{purple},
+    %before skip=2mm,
+    %after skip=2mm,
+    %colback=yellow!20,
+    attach boxed title to top center=
+        {yshift=-0.25mm-\tcboxedtitleheight/2,
+            yshifttext=2mm-\tcboxedtitleheight/2},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={\path[tcb fill frame]
+            ([xshift=-4mm]frame.west)
+            -- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+            -- (frame.south east) -- (frame.south west) -- cycle;},
+            ,
+        interior code={\path[fill=white]
+        ([xshift=-2mm]interior.west)
+        -- (interior.north west)
+        -- (interior.north east)
+        -- ([xshift=2mm]interior.east)
+        -- (interior.south east)
+        -- (interior.south west)-- cycle;},
+        %interior engine=empty,
+        },
+    drop lifted shadow=yellow,
+    %drop fuzzy shadow=white,
+    frame style={right color=white,left color=yellow},
+    title={#2},#1
+    }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbeight}[2][]{
+    enhanced,
+    before skip=2mm,
+    after skip=2mm,
+    %top=-3pt,
+    colback=xamnhat,
+    colframe=xamnhat,
+    coltext=blue,
+    coltitle=Maroon,
+    boxrule=0.2mm,
+    attach boxed title to top left={xshift=1cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=red]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=cyan, bottom color=cyan, middle color=white]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    drop lifted shadow,
+    fonttitle=\bfseries,
+    title={#2},#1
+    }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbnine}[2][]{%
+    breakable,
+    before skip=4mm,
+    %after skip=2mm,
+    %top=1mm,
+    colframe=teal,
+    fonttitle=\bfseries\color{purple},
+    attach boxed title to top center=
+        {yshift=-0.25mm-\tcboxedtitleheight/2,
+            yshifttext=2mm-\tcboxedtitleheight/2},
+    boxed title style={boxrule=0.5mm,
+        frame code={\path[tcb fill frame]
+            ([xshift=-4mm]frame.west)
+            -- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+            -- (frame.south east) -- (frame.south west) -- cycle;},
+        interior code={\path[tcb fill interior]
+        ([xshift=-2mm]interior.west)
+        -- (interior.north west)
+        -- (interior.north east)
+        -- ([xshift=2mm]interior.east)
+        -- (interior.south east)
+        -- (interior.south west)-- cycle;},
+            },
+    title style={left color=purple,right color=blue},
+    frame style={right color=purple,left color=blue},
+    drop lifted shadow=blue,
+    colbacktitle=white,
+    enhanced,
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbten}[2][]{%
+    enhanced,
+    breakable,
+    before skip=0.4cm,
+    after skip=0.4cm,
+    bottom=0.5cm,
+    colframe=crimson,
+    coltitle=white,
+    colback=coralred!4,
+    %fonttitle=\bfseries\color{yellow},
+    boxrule=0.2mm,
+    arc=0mm,
+    leftrule=2mm,
+    attach boxed title to top left =
+        {xshift=0cm,yshift*=0mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \coordinate (A) at (frame.north east);
+            \coordinate (B) at (frame.south east);
+            \path[fill=coralred](frame.north east)--([xshift=-2mm]frame.north west)--([xshift=-2mm]frame.south west)--(frame.south east) --([xshift=3mm]$(A)!0.5!(B)$)--cycle;
+            \draw[white,line width=2pt]([xshift=-2mm]frame.north east)--([xshift=1mm]$(A)!0.5!(B)$)--([xshift=-2mm]frame.south east);
+            \path[fill=coralred!50]([xshift=-2mm]frame.south west)--+(2mm,-2mm)|-cycle;
+            },
+        interior engine=empty,
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbeleven}[2][]{%
+    breakable,
+    enhanced,
+    detach title,
+    blanker,
+    %title={Theorem},
+    coltitle=white,
+    boxsep=3mm,
+    top=2mm,
+    left=2mm,
+    right=2mm,
+    before skip=1cm,
+    after skip=0.6cm,
+    overlay={
+        \scoped[on background layer]{
+        \draw[fill=red!60!blue!3,draw=none](interior.north west)rectangle(interior.south east);
+        \draw[red!60!blue](interior.north west)|-(interior.south east);},
+        \node[anchor=west,font=\bfseries,
+          scale=1.2, above right, fill=darkraspberry, xshift=-2mm, yshift=-2mm, drop shadow] (1) at (interior.north west){\tcbtitle};
+           },
+    overlay first={
+        \scoped[on background layer]{
+        \draw[fill=red!60!blue!3,draw=none](interior.north west)rectangle(interior.south east);
+        \draw[red!60!blue](interior.north west)--(interior.south west);},
+        \node[anchor=west,font=\large\bfseries,
+         scale=1.2, above right, fill=red!60!blue, xshift=-2mm, yshift=-2mm, drop shadow] (1) at (interior.north west){\tcbtitle};
+          },
+    overlay middle= {
+        \draw[fill=red!60!blue!3,draw=none](interior.north west)rectangle(interior.south east);
+        \draw[red!60!blue](interior.north west)--(interior.south west);
+        },
+    overlay last= {
+        \draw[fill=red!60!blue!3,draw=none](interior.north west)rectangle(interior.south east);
+        \draw[red!60!blue](interior.north west)|-(interior.south east);
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbtwelve}[2][]{%
+    enhanced,
+    breakable,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top left={xshift=-4mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    colbacktitle=blue,
+    colframe=blue,
+    interior style={
+        top color=blue!5,
+        bottom color=magenta!5
+        },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[blue!65!white](title.north west) --
+         (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([xshift=4mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) --(title.south west) -- cycle;
+         \fill[blue!45!white!50!black]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[blue!45!white!50!black]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbthirteen}[2][]{%
+    colframe=pastelmagenta,
+    colback=pastelmagenta!12!white,
+    boxed title style={colback=pastelmagenta},
+    breakable,
+    enhanced,
+    sharp corners,
+    boxsep=1pt,
+    attach boxed title to top left={
+        yshift=-\tcboxedtitleheight,
+        yshifttext=-1.05\baselineskip},
+    boxed title style={boxsep=1pt,sharp corners},
+    fonttitle=\bfseries\sffamily,
+    no shadow,
+    top=1ex,
+    boxrule=0pt,
+    leftrule=1.4pt,
+    colframe=pastelmagenta,
+    colback=pastelmagenta!12!white,
+    boxed title style={colback=pastelmagenta},
+    overlay unbroken and first={
+         \node[below right, font=\small, color=magenta, text width=.8\linewidth]
+         at (title.north east) {#1};
+         },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbfourteen}[2][]{%
+    breakable,
+    enhanced,
+    colback=goldenyellow!5,
+    colframe=goldenyellow,
+    coltitle=black,
+    top=2mm,
+    boxsep=3mm,
+    attach boxed title to top left={
+        yshift=-\tcboxedtitleheight/2,
+        xshift=0.3cm},
+    boxed title style={
+        size=small,
+        colback=goldenyellow
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbfifteen}[2][]{%
+    breakable,
+    enhanced,
+    colback=liver!5,
+    colframe=liver,
+    top=2mm,
+    boxsep=3mm,
+    attach boxed title to top left=
+         {yshift=-\tcboxedtitleheight/2 ,xshift=0.3cm},
+    boxed title style={size=small,colback=liver},
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbsixteen}[2][]{%
+    breakable,
+    enhanced,
+    colback=skobeloff!5,
+    colframe=skobeloff,
+    top=2mm,boxsep=3mm,
+    attach boxed title to top left={
+         yshift=-\tcboxedtitleheight/2 ,
+         xshift=0.3cm
+         },
+    boxed title style={
+        size=small,
+        colback=skobeloff
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbseventeen}[2][]{%
+    breakable,
+    enhanced,
+    colback=tangelo!5,
+    colframe=tangelo,
+    top=2mm,
+    boxsep=3mm,
+    attach boxed title to top left={
+         yshift=-\tcboxedtitleheight/2,
+         xshift=0.3cm
+         },
+    boxed title style={
+        size=small,
+        colback=tangelo
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbeighteen}[2][]{%
+    breakable,
+    enhanced,
+    colframe=tealblue,
+    colback=blue!5,
+    colbacktitle=tearose(rose)!25,
+    fonttitle=\bfseries,
+    coltitle=black,
+    attach boxed title to top center={
+        yshift=-0.25mm-\tcboxedtitleheight/2,
+        yshifttext=2mm-\tcboxedtitleheight/2
+        },
+    boxed title style={
+        boxrule=0.5mm,
+        frame code={\path[tcb fill frame]
+            ([xshift=-4mm]frame.west)
+             -- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+             -- (frame.south east) -- (frame.south west) -- cycle;
+             },
+        interior code={\path[tcb fill interior]
+            ([xshift=-2mm]interior.west)
+            -- (interior.north west) -- (interior.north east)-- ([xshift=2mm]interior.east) -- (interior.south east) -- (interior.south west)-- cycle;
+            }
+            },
+    title=#2,#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbnineteen}[2][]{%
+    enhanced,
+    breakable,
+    arc=0pt,
+    outer arc=0pt,
+    rightrule=2pt,
+    toprule=0pt,
+    bottomrule=0pt,
+    leftrule=2pt,
+    colframe=blue,
+    colback=pink!20!,%
+    drop lifted shadow,
+    attach boxed title to top left,
+    boxed title style={
+        colback=blue,
+        arc=0pt,
+        outer arc=0pt,
+        colupper=white},
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbtwenty}[2][]{%
+    enhanced,
+    breakable,
+    arc=0pt,
+    outer arc=0pt,
+    rightrule=2pt,
+    toprule=0pt,
+    bottomrule=0pt,
+    leftrule=2pt,
+    colframe=Maroon,
+    colback=pink!20!,%
+    drop lifted shadow,
+    attach boxed title to top left,
+    boxed title style={
+        colback=Maroon,
+        arc=0pt,
+        outer arc=0pt,
+        colupper=white},
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbtwentyone}[2][]{%
+    enhanced,
+    breakable,
+    arc=0pt,
+    outer arc=0pt,
+    rightrule=2pt,
+    toprule=0pt,
+    bottomrule=0pt,
+    leftrule=2pt,
+    colframe=DarkGreen,
+    colback=yellow!10!,%
+    drop lifted shadow,
+    attach boxed title to top left,
+    boxed title style={
+        colback=DarkGreen,
+        arc=0pt,
+        outer arc=0pt,
+        colupper=white},
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbtwentytwo}[2][]{%
+    enhanced,
+    breakable,
+    before skip=2mm,
+    after skip=0.3cm,
+    bottom=0.5cm,
+    colframe=cyan,
+    colback=cyan!2,
+    coltitle=white,
+    fonttitle=\bfseries,
+    boxrule=0.2mm,
+    arc=2mm,
+    drop midday shadow=cyan,
+    attach boxed title to top left={
+        xshift=0cm,
+        yshift*=0mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        interior empty,
+        %interior engine=empty,
+        frame code={
+            \path[fill=cyan]
+             ([xshift=+0.5cm]frame.north east)[rounded corners=2mm]--(frame.north west)[sharp corners]--(frame.south west) --(frame.south east)to[out=0,in=180]cycle;
+             \draw[cyan]([yshift=-0.5mm]frame.south west)--([yshift=-0.5mm,xshift=+0.4mm]frame.south east)to[out=0,in=180]([yshift=0mm,xshift=+0.58cm]frame.north east);
+             },
+        %
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbtwentythree}[2][]{%
+    enhanced,
+    breakable,
+    interior code app={
+        \fill[line width=1pt, draw=black, fill=gray!15 ,
+            blur shadow={shadow blur steps=1},
+            shadow yshift=-0.2em,
+            decoration={random steps,segment length=0.8cm,amplitude=.05cm},decorate]
+            (frame.north west) -- (frame.north east) -- (frame.south east) -- (frame.south west) -- cycle;
+            },
+    frame hidden,
+    coltitle=blue,
+    fonttitle=\bfseries,
+    top=0.4cm,
+    attach boxed title to top left={
+        yshift=-0.25mm-\tcboxedtitleheight/2,
+        xshift=-0.7mm
+        },
+    boxed title style={
+        enhanced,
+        rotate=5,
+        boxrule=.5mm,
+        interior code app={
+            \fill[line width=1pt, draw=black, fill=gray!15 , shadow yshift=-0.2em, decoration={random steps,segment length=0.8cm,amplitude=.05cm},decorate]
+            (frame.north west) -- (frame.north east) -- (frame.south east) -- (frame.south west) -- cycle;
+            }
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbtwentyfour}[2][]{%
+    enhanced,
+    before skip=2mm,
+    after skip=3mm,
+    boxrule=0.4pt,
+    left=5mm,
+    right=2mm,
+    top=1mm,
+    bottom=1mm,
+    colback=yellow!15,
+    colframe=yellow!20!black,
+    sharp corners,
+    rounded corners=southeast,
+    arc is angular,
+    arc=3mm,
+    underlay={%
+        \path[fill=gray!80!black]
+        ([yshift=3mm]interior.south east)-- ++ (-0.4,-0.1)--++(0.1,-0.2);
+        \path[draw,shorten <=-0.05mm,shorten >=-0.05mm] ([yshift=3mm]interior.south east) -- ++(-0.4,-0.1)--++(0.1,-0.2);
+        \path[fill=yellow!50!black,draw=none] (interior.south west) rectangle node[white]{\large\bfseries !} ([xshift=4mm]interior.north west);
+        },
+    drop fuzzy shadow,
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbtwentyfive}[2][]{%
+    enhanced jigsaw,
+    colback=seashell,
+    colframe=darkmidnightblue,
+    size=small,
+    boxrule=1.5pt,
+    halign title=flush center,
+    coltitle=ruby,
+    breakable,
+    drop shadow=black!50!white,
+    attach boxed title to top left={
+        xshift=1cm,
+        yshift=-\tcboxedtitleheight/2,
+        yshifttext=-\tcboxedtitleheight/2
+        },
+    minipage boxed title=3cm,
+    boxed title style={%
+        colback=pastelmagenta!25,
+        size=fbox,
+        boxrule=1.5pt,
+        boxsep=2pt,
+        underlay={%
+            \coordinate (dotA) at ($(interior.west) + (-0.5pt,0)$);
+            \coordinate (dotB) at ($(interior.east) + (0.5pt,0)$);
+            \begin{scope}
+            \clip (interior.north west) rectangle ([xshift=3ex]interior.east);
+            \filldraw [pastelmagenta!25, blur shadow={shadow opacity=60, shadow yshift=-.75ex}, rounded corners=2pt] (interior.north west) rectangle (interior.south east);
+            \end{scope}
+            \begin{scope}[ruby]
+            \fill (dotA) circle (2pt);
+            \fill (dotB) circle (2pt);
+            \end{scope}
+                },
+            },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbtwentysix}[2][]{%
+    enhanced,
+    breakable,
+	before skip=0.5cm,
+    after skip=0.5cm,
+    top=0.5cm,
+    bottom=0.25cm,
+    colback=mylightyellow,
+    colframe=black,
+    boxrule=1pt,
+    drop fuzzy shadow,
+    attach boxed title to top center={
+        yshift*=1mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=cyan!30!black]
+            ([yshift=-1mm,xshift=-1mm]frame.north west)
+            arc[start angle=0,end angle=180,radius=1mm]
+            ([yshift=-1mm,xshift=1mm]frame.north east)
+            arc[start angle=180,end angle=0,radius=1mm];
+            \path[fill=cyan]
+            ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+            [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+            -- (frame.south east)--(frame.south)[sharp corners]--([xshift=-1mm,yshift=-2mm]frame.south)[rounded corners=1mm]--([xshift=-2mm]frame.south)[rounded corners=1mm]--(frame.south west)
+            --([xshift=-1mm,yshift=-1mm]frame.north west)
+            [sharp corners]-- cycle;
+            },
+        interior engine=empty,
+        },
+    overlay unbroken and first={
+        \foreach \i in {0.1,0.2,...,0.9}
+            {
+            \node at ($([yshift=-2.4mm,xshift=2mm]title.north east)!\i!([yshift=-1.4mm]frame.north east)$){\loxo};
+            }
+        \foreach \i in {0.1,0.2,...,0.9}
+            {
+            \node at ($([yshift=-2.4mm,xshift=-2mm]title.north west)!\i!([yshift=-1.4mm]frame.north west)$){\loxo};
+            }
+        },
+	fonttitle= \bfseries\selectfont,
+    title=#2,#1}
+
+\newtcolorbox{tcbtwentyseven}[2][]{enhanced,
+    breakable,
+    sharp corners,
+    rounded corners=northwest,
+    %colback=yellow,
+    colframe=orange!80!black,
+    fonttitle=\bfseries,
+    attach boxed title to top left,
+    boxed title size=standard,
+    boxed title style={%
+        empty,
+        rounded corners=north,
+        boxrule=0pt,
+        bottom=-2pt,
+        },
+    underlay boxed title={
+         \filldraw[orange!80!black,line width=.5mm]
+          (title.south east) -- ++ (91:\tcboxedtitleheight+1) -- ++ (183:\tcboxedtitlewidth) -- ++ (-87:\tcboxedtitleheight)|-cycle;
+         \draw[orange!80!black, line width=.5mm] (title.south)|-(frame.north east);
+         },
+    title={#2},#1
+    }
+\newtcolorbox{tcbtwentyeight}[2][]{enhanced,
+    breakable,
+    sharp corners,
+    rounded corners=northwest,
+    %colback=yellow,
+    colframe=DarkGreen,
+    fonttitle=\bfseries,
+    attach boxed title to top left,
+    boxed title size=standard,
+    boxed title style={%
+        empty,
+        rounded corners=north,
+        boxrule=0pt,
+        bottom=-2pt,
+        },
+    underlay boxed title={
+         \filldraw[DarkGreen,line width=.5mm]
+          (title.south east) -- ++ (91:\tcboxedtitleheight+1) -- ++ (183:\tcboxedtitlewidth) -- ++ (-87:\tcboxedtitleheight)|-cycle;
+         \draw[DarkGreen, line width=.5mm] (title.south)|-(frame.north east);
+         },
+    title={#2},#1
+    }
+\newtcolorbox{tcbtwentynine}[2][]{enhanced,
+    breakable,
+    sharp corners,
+    rounded corners=northwest,
+    %colback=yellow,
+    colframe=Maroon,
+    fonttitle=\bfseries,
+    attach boxed title to top left,
+    boxed title size=standard,
+    boxed title style={%
+        empty,
+        rounded corners=north,
+        boxrule=0pt,
+        bottom=-2pt,
+        },
+    underlay boxed title={
+         \filldraw[Maroon,line width=.5mm]
+          (title.south east) -- ++ (91:\tcboxedtitleheight+1) -- ++ (183:\tcboxedtitlewidth) -- ++ (-87:\tcboxedtitleheight)|-cycle;
+         \draw[Maroon, line width=.5mm] (title.south)|-(frame.north east);
+         },
+    title={#2},#1
+    }
+%
+\newtcolorbox{tcbthirty}[2][]{
+    enhanced jigsaw,
+    breakable,
+    left skip=5mm,
+    overlay unbroken={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt]
+            ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+        \node[circle,fill=orange!80!black,
+            inner sep=4pt,minimum size=0.8cm]
+            at ([xshift=-0.1cm]frame.north west){\color{white} \Large \bfseries \faHome};
+            },
+    overlay first={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+         \node[circle,fill=orange!80!black,
+            inner sep=4pt,minimum size=0.8cm] at ([xshift=-0.1cm]frame.north west){\color{white} \Large  \bfseries\faHome};
+            },
+    overlay middle={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    overlay last={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    frame hidden,
+    colframe=red,
+    colback=white,
+    colbacktitle=white,
+    coltitle=cyan,
+    top=0.5cm,
+    fonttitle=\bfseries,
+    attach boxed title to top left={
+        xshift=1cm,
+        yshift=-0.3cm
+        },
+    boxed title style={frame hidden},
+    title={#2},#1
+    }
+%
+\newtcolorbox{tcbthirtyone}[2][]{
+    enhanced jigsaw,
+    breakable,
+    left skip=5mm,
+    overlay unbroken={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt]
+            ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+        \node[circle,fill=cyan!80!black,
+            inner sep=4pt,minimum size=0.8cm]
+            at ([xshift=-0.1cm]frame.north west){\color{white} \Large \bfseries \bclampe};
+            },
+    overlay first={
+        \fill[top color=cyan!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+         \node[circle,fill=cyan!80!black,
+            inner sep=4pt,minimum size=0.8cm] at ([xshift=-0.1cm]frame.north west){\color{white} \Large  \bfseries\bclampe};
+            },
+    overlay middle={
+        \fill[top color=cyan!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    overlay last={
+        \fill[top color=cyan!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    frame hidden,
+    colframe=red,
+    colback=white,
+    colbacktitle=white,
+    coltitle=cyan,
+    top=0.5cm,
+    fonttitle=\bfseries,
+    attach boxed title to top left={
+        xshift=1cm,
+        yshift=-0.3cm
+        },
+    boxed title style={frame hidden},
+    title={#2},#1
+    }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbthirtytwo}[2][]{
+    enhanced jigsaw,breakable,
+    colback=yellow!10,
+    colframe=cyan,
+    coltitle=Maroon,
+    colbacktitle=white,
+    fonttitle=\bfseries,
+    before skip=0mm,
+    after skip=2mm,
+    boxrule=1pt,
+    drop fuzzy shadow=gray,
+    left=2mm,
+    right=2mm,
+    top=8mm,
+    bottom=2mm,
+    sharp corners,
+    rounded corners=southwest,
+    rounded corners=northeast,
+    arc=2mm,
+    %attach boxed title to top left,
+    attach boxed title to top center=
+        {yshift=-0.25mm-\tcboxedtitleheight/2,
+            yshifttext=2mm-\tcboxedtitleheight/2},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={\path[tcb fill frame]
+            ([xshift=-4mm]frame.west)
+            -- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+            -- (frame.south east) -- (frame.south west) -- cycle;},
+            ,
+        interior code={\path[fill=yellow!10]
+        ([xshift=-2mm]interior.west)
+        -- (interior.north west)
+        -- (interior.north east)
+        -- ([xshift=2mm]interior.east)
+        -- (interior.south east)
+        -- (interior.south west)-- cycle;},
+        %interior engine=empty,
+        },
+    underlay unbroken and last=
+        {
+        \path[fill=cyan,draw=cyan] (interior.south east)--++(0,0.2)
+        --([xshift=-2cm,yshift=0.2cm]interior.south east) to[bend right=3pt] ([xshift=-2.75cm,yshift=0mm]interior.south east)--cycle;
+		},
+    title={#2},#1
+    }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbthirtythree}[2][]{%
+    enhanced,
+    breakable,
+    before skip=0.4cm,
+    after skip=0.4cm,
+    bottom=0.5cm,
+    colframe=Maroon,
+    coltitle=white,
+    colback=yellow!10,
+    %fonttitle=\bfseries\color{yellow},
+    boxrule=0.2mm,
+    arc=0mm,
+    leftrule=2mm,
+    attach boxed title to top left =
+        {xshift=0cm,yshift*=0mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \coordinate (A) at (frame.north east);
+            \coordinate (B) at (frame.south east);
+            \path[fill=Maroon](frame.north east)--([xshift=-2mm]frame.north west)--([xshift=-2mm]frame.south west)--(frame.south east) --([xshift=3mm]$(A)!0.5!(B)$)--cycle;
+            \draw[white,line width=2pt]([xshift=-2mm]frame.north east)--([xshift=1mm]$(A)!0.5!(B)$)--([xshift=-2mm]frame.south east);
+            \path[fill=Maroon!50]([xshift=-2mm]frame.south west)--+(2mm,-2mm)|-cycle;
+            },
+        interior engine=empty,
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbthirtyfour}[2][]{%
+    enhanced,
+    breakable,
+    before skip=0.4cm,
+    after skip=0.4cm,
+    bottom=0.5cm,
+    colframe=DarkGreen,
+    coltitle=white,
+    colback=cyan!10,
+    %fonttitle=\bfseries\color{yellow},
+    boxrule=0.2mm,
+    arc=0mm,
+    leftrule=2mm,
+    attach boxed title to top left =
+        {xshift=0cm,yshift*=0mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \coordinate (A) at (frame.north east);
+            \coordinate (B) at (frame.south east);
+            \path[fill=DarkGreen](frame.north east)--([xshift=-2mm]frame.north west)--([xshift=-2mm]frame.south west)--(frame.south east) --([xshift=3mm]$(A)!0.5!(B)$)--cycle;
+            \draw[white,line width=2pt]([xshift=-2mm]frame.north east)--([xshift=1mm]$(A)!0.5!(B)$)--([xshift=-2mm]frame.south east);
+            \path[fill=DarkGreen!50]([xshift=-2mm]frame.south west)--+(2mm,-2mm)|-cycle;
+            },
+        interior engine=empty,
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbthirtyfive}[2][]{%
+    enhanced,
+    breakable,
+    before skip=0.4cm,
+    after skip=0.4cm,
+    bottom=0.5cm,
+    colframe=DarkGreen,
+    coltitle=white,
+    colback=mygray,
+    %fonttitle=\bfseries\color{yellow},
+    boxrule=0.2mm,
+    arc=0mm,
+    leftrule=2mm,
+    attach boxed title to top left =
+        {xshift=0cm,yshift*=0mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \coordinate (A) at (frame.north east);
+            \coordinate (B) at (frame.south east);
+            \path[fill=DarkGreen](frame.north east)--([xshift=-2mm]frame.north west)--([xshift=-2mm]frame.south west)--(frame.south east) --([xshift=3mm]$(A)!0.5!(B)$)--cycle;
+            \draw[white,line width=2pt]([xshift=-2mm]frame.north east)--([xshift=1mm]$(A)!0.5!(B)$)--([xshift=-2mm]frame.south east);
+            \path[fill=DarkGreen!50]([xshift=-2mm]frame.south west)--+(2mm,-2mm)|-cycle;
+            },
+        interior engine=empty,
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbthirtysix}[2][]{
+    enhanced jigsaw,breakable,
+    colback=yellow!10,
+    colframe=DarkGreen,
+    coltitle=Maroon,
+    colbacktitle=white,
+    fonttitle=\bfseries,
+    before skip=0mm,
+    after skip=2mm,
+    boxrule=1pt,
+    drop fuzzy shadow=gray,
+    left=2mm,
+    right=2mm,
+    top=8mm,
+    bottom=2mm,
+    sharp corners,
+    rounded corners=southwest,
+    rounded corners=northeast,
+    arc=2mm,
+    %attach boxed title to top left,
+    attach boxed title to top center=
+        {yshift=-0.25mm-\tcboxedtitleheight/2,
+            yshifttext=2mm-\tcboxedtitleheight/2},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={\path[tcb fill frame]
+            ([xshift=-4mm]frame.west)
+            -- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+            -- (frame.south east) -- (frame.south west) -- cycle;},
+            ,
+        interior code={\path[fill=yellow!10]
+        ([xshift=-2mm]interior.west)
+        -- (interior.north west)
+        -- (interior.north east)
+        -- ([xshift=2mm]interior.east)
+        -- (interior.south east)
+        -- (interior.south west)-- cycle;},
+        %interior engine=empty,
+        },
+    underlay unbroken and last=
+        {
+        \path[fill=DarkGreen,draw=DarkGreen] (interior.south east)--++(0,0.2)
+        --([xshift=-2cm,yshift=0.2cm]interior.south east) to[bend right=3pt] ([xshift=-2.75cm,yshift=0mm]interior.south east)--cycle;
+		},
+    title={#2},#1
+    }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbthirtyseven}[2][]{
+    enhanced jigsaw,breakable,
+    colback=xamnhat,
+    colframe=Maroon,
+    coltitle=Maroon,
+    colbacktitle=white,
+    fonttitle=\bfseries,
+    before skip=0mm,
+    after skip=2mm,
+    boxrule=1pt,
+    drop fuzzy shadow=gray,
+    left=2mm,
+    right=2mm,
+    top=8mm,
+    bottom=2mm,
+    sharp corners,
+    rounded corners=southwest,
+    rounded corners=northeast,
+    arc=2mm,
+    %attach boxed title to top left,
+    attach boxed title to top center=
+        {yshift=-0.25mm-\tcboxedtitleheight/2,
+            yshifttext=2mm-\tcboxedtitleheight/2},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={\path[tcb fill frame]
+            ([xshift=-4mm]frame.west)
+            -- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+            -- (frame.south east) -- (frame.south west) -- cycle;},
+            ,
+        interior code={\path[fill=yellow!10]
+        ([xshift=-2mm]interior.west)
+        -- (interior.north west)
+        -- (interior.north east)
+        -- ([xshift=2mm]interior.east)
+        -- (interior.south east)
+        -- (interior.south west)-- cycle;},
+        %interior engine=empty,
+        },
+    underlay unbroken and last=
+        {
+        \path[fill=Maroon,draw=Maroon] (interior.south east)--++(0,0.2)
+        --([xshift=-2cm,yshift=0.2cm]interior.south east) to[bend right=3pt] ([xshift=-2.75cm,yshift=0mm]interior.south east)--cycle;
+		},
+    title={#2},#1
+    }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbthirtyeight}[2][]{%
+    enhanced,
+    breakable,
+    before skip=2mm,
+    after skip=0.3cm,
+    bottom=0.5cm,
+    colframe=DarkGreen,
+    colback=cyan!2,
+    boxrule=0.2mm,
+    arc=2mm,
+    drop midday shadow=DarkGreen,
+    attach boxed title to top left={
+        xshift=0cm,
+        yshift*=0mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=DarkGreen]
+             ([xshift=+0.5cm]frame.north east)[rounded corners=2mm]--(frame.north west)[sharp corners]--(frame.south west) --(frame.south east)to[out=0,in=180]cycle;
+             \draw[DarkGreen]([yshift=-0.5mm]frame.south west)--([yshift=-0.5mm,xshift=+0.4mm]frame.south east)to[out=0,in=180]([yshift=0mm,xshift=+0.58cm]frame.north east);
+             },
+        interior engine=empty,
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbthirtynine}[2][]{%
+    enhanced,
+    breakable,
+    before skip=2mm,
+    after skip=0.3cm,
+    bottom=0.5cm,
+    colframe=Maroon,
+    colback=cyan!2,
+    boxrule=0.2mm,
+    arc=2mm,
+    drop midday shadow=Maroon,
+    attach boxed title to top left={
+        xshift=0cm,
+        yshift*=0mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=Maroon]
+             ([xshift=+0.5cm]frame.north east)[rounded corners=2mm]--(frame.north west)[sharp corners]--(frame.south west) --(frame.south east)to[out=0,in=180]cycle;
+             \draw[Maroon]([yshift=-0.5mm]frame.south west)--([yshift=-0.5mm,xshift=+0.4mm]frame.south east)to[out=0,in=180]([yshift=0mm,xshift=+0.58cm]frame.north east);
+             },
+        interior engine=empty,
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbforty}[2][]{%
+    enhanced,
+    breakable,
+    before skip=2mm,
+    after skip=0.3cm,
+    bottom=0.5cm,
+    colframe=blue,
+    colback=yellow!5,
+    boxrule=0.2mm,
+    arc=2mm,
+    drop midday shadow=blue,
+    attach boxed title to top left={
+        xshift=0cm,
+        yshift*=0mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=blue]
+             ([xshift=+0.5cm]frame.north east)[rounded corners=2mm]--(frame.north west)[sharp corners]--(frame.south west) --(frame.south east)to[out=0,in=180]cycle;
+             \draw[blue]([yshift=-0.5mm]frame.south west)--([yshift=-0.5mm,xshift=+0.4mm]frame.south east)to[out=0,in=180]([yshift=0mm,xshift=+0.58cm]frame.north east);
+             },
+        interior engine=empty,
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbfortyone}[2][]{%
+    enhanced,
+    breakable,
+    before skip=2mm,
+    after skip=0.3cm,
+    bottom=0.5cm,
+    colframe=teal,
+    colback=yellow!5,
+    boxrule=0.2mm,
+    arc=2mm,
+    drop midday shadow=teal,
+    attach boxed title to top left={
+        xshift=0cm,
+        yshift*=0mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=teal]
+             ([xshift=+0.5cm]frame.north east)[rounded corners=2mm]--(frame.north west)[sharp corners]--(frame.south west) --(frame.south east)to[out=0,in=180]cycle;
+             \draw[teal]([yshift=-0.5mm]frame.south west)--([yshift=-0.5mm,xshift=+0.4mm]frame.south east)to[out=0,in=180]([yshift=0mm,xshift=+0.58cm]frame.north east);
+             },
+        interior engine=empty,
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbfortytwo}[2][]{%
+    enhanced,
+    breakable,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top left={xshift=-4mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    colbacktitle=Maroon,
+    colframe=Maroon,
+    interior style={
+        top color=Maroon!5,
+        bottom color=magenta!5
+        },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[Maroon!65!white](title.north west) --
+         (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([xshift=4mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) --(title.south west) -- cycle;
+         \fill[Maroon!45!white!50!black]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[Maroon!45!white!50!black]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbfortythree}[2][]{%
+    enhanced,
+    breakable,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top left={xshift=-4mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    colbacktitle=DarkGreen,
+    colframe=DarkGreen,
+    interior style={
+        top color=DarkGreen!5,
+        bottom color=magenta!5
+        },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[DarkGreen!65!white](title.north west) --
+         (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([xshift=4mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) --(title.south west) -- cycle;
+         \fill[DarkGreen!45!white!50!black]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[DarkGreen!45!white!50!black]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbfortyfour}[2][]{%
+    enhanced,
+    breakable,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top left={xshift=-4mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    colbacktitle=teal,
+    colframe=teal,
+    interior style={
+        top color=teal!5,
+        bottom color=magenta!5
+        },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[teal!65!white](title.north west) --
+         (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([xshift=4mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) --(title.south west) -- cycle;
+         \fill[teal!45!white!50!black]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[teal!45!white!50!black]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbfortyfive}[2][]{%
+    enhanced,
+    breakable,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top center={xshift=0mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    colbacktitle=Maroon,
+    colframe=Maroon,
+    interior style={
+        top color=Maroon!5,
+        bottom color=magenta!5
+        },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[Maroon!65!white]
+        (title.north west) --
+        (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([shift={(-\tcboxedtitleheight+1mm,-\tcboxedtitleheight+1mm)}]title.north west)
+         -- cycle
+         ;
+         \fill[Maroon!35!white!50!black]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[Maroon!35!white!50!black]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         \draw[Maroon!65!white, line width=4pt]
+          ([xshift=-4mm,yshift=0mm]frame.north west)
+          --
+          ([xshift=4mm,yshift=0mm]frame.north east);
+
+         },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbfortyseven}[2][]{%
+    enhanced,
+    breakable,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top center={xshift=0mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    colbacktitle=teal,
+    colframe=teal,
+    interior style={
+        top color=teal!5,
+        bottom color=magenta!5
+        },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[teal!65!white]
+        (title.north west) --
+        (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([shift={(-\tcboxedtitleheight+1mm,-\tcboxedtitleheight+1mm)}]title.north west)
+         -- cycle
+         ;
+         \fill[teal!35!white!50!black]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[teal!35!white!50!black]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         \draw[teal!65!white, line width=4pt]
+          ([xshift=-4mm,yshift=0mm]frame.north west)
+          --
+          ([xshift=4mm,yshift=0mm]frame.north east);
+
+         },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbfortysix}[2][]{%
+    breakable,
+    enhanced,
+    detach title,
+    blanker,
+    %title={Theorem},
+    coltitle=white,
+    boxsep=3mm,
+    top=2mm,
+    left=2mm,
+    right=2mm,
+    before skip=1cm,
+    after skip=0.6cm,
+    overlay={
+        \scoped[on background layer]{
+        \draw[fill=red!60!blue!3,draw=none](interior.north west)rectangle(interior.south east);
+        \draw[teal](interior.north west)|-(interior.south east);},
+        \node[anchor=west,
+            font=\bfseries,
+            scale=1.2,
+            above right,
+            fill=teal,
+            xshift=-2mm,
+            yshift=-2mm,
+            drop shadow] (1) at (interior.north west){\tcbtitle};
+           },
+    overlay first={
+        \scoped[on background layer]{
+        \draw[fill=red!60!blue!3,draw=none](interior.north west)rectangle(interior.south east);
+        \draw[teal](interior.north west)--(interior.south west);},
+        \node[anchor=west,
+            font=\large\bfseries,
+            scale=1.2,
+            above right,
+            fill=teal,
+            xshift=-2mm,
+            yshift=-2mm,
+            drop shadow] (1) at (interior.north west){\tcbtitle};
+          },
+    overlay middle= {
+        \draw[fill=red!60!blue!3,draw=none](interior.north west)rectangle(interior.south east);
+        \draw[red!60!blue](interior.north west)--(interior.south west);
+        },
+    overlay last= {
+        \draw[fill=red!60!blue!3,draw=none](interior.north west)rectangle(interior.south east);
+        \draw[teal](interior.north west)|-(interior.south east);
+        },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbfortyeight}[2][]{%
+    enhanced,
+    breakable,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top center={xshift=0mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    colbacktitle=DarkGreen,
+    colframe=DarkGreen,
+    interior style={
+        top color=DarkGreen!5,
+        bottom color=magenta!5
+        },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[DarkGreen!65!white]
+        (title.north west) --
+        (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([shift={(-\tcboxedtitleheight+1mm,-\tcboxedtitleheight+1mm)}]title.north west)
+         -- cycle
+         ;
+         \fill[DarkGreen!35!white!50!black]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[DarkGreen!35!white!50!black]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         \draw[DarkGreen!65!white, line width=4pt]
+          ([xshift=-4mm,yshift=0mm]frame.north west)
+          --
+          ([xshift=4mm,yshift=0mm]frame.north east);
+
+         },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbfortynine}[2][]{%
+    enhanced,
+    breakable,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top center={xshift=0mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    colbacktitle=cyan,
+    colframe=cyan,
+    interior style={
+        top color=cyan!5,
+        bottom color=magenta!5
+        },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[cyan!65!white]
+        (title.north west) --
+        (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([shift={(-\tcboxedtitleheight+1mm,-\tcboxedtitleheight+1mm)}]title.north west)
+         -- cycle
+         ;
+         \fill[cyan!35!white!50!black]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[cyan!35!white!50!black]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         \draw[cyan!65!white, line width=4pt]
+          ([xshift=-4mm,yshift=0mm]frame.north west)
+          --
+          ([xshift=4mm,yshift=0mm]frame.north east);
+          },
+    drop fuzzy shadow=cyan,
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox{tcbfifty}[2][]{%
+    enhanced,
+    breakable,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top center={xshift=0mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    colbacktitle=blue,
+    colframe=blue,
+    interior style={
+        top color=blue!5,
+        bottom color=magenta!5
+        },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[blue!65!white]
+        (title.north west) --
+        (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([shift={(-\tcboxedtitleheight+1mm,-\tcboxedtitleheight+1mm)}]title.north west)
+         -- cycle
+         ;
+         \fill[blue!35!white!50!black]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[blue!35!white!50!black]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         \draw[blue!65!white, line width=4pt]
+          ([xshift=-4mm,yshift=0mm]frame.north west)
+          --
+          ([xshift=4mm,yshift=0mm]frame.north east);
+
+         },
+    title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%CÁC KHAI BÁO HỘP tcolorbox TRÊN DÒNG%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcbox{\inmybox}[1][red]{%
+    on line,
+    arc=0pt,
+    outer arc=0pt,
+    colback=#1!10!white,
+    colframe=#1!50!black,
+    boxsep=0pt,
+    left=1pt,
+    right=1pt,
+    top=2pt,
+    bottom=2pt,
+    boxrule=0pt,
+    bottomrule=1pt,
+    toprule=1pt}
+\newtcbox{\xmybox}[1][red]{%
+    on line,
+    arc=3pt,
+    colback=#1!3!white,
+    colframe=#1,
+    before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=1pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt}
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxone}[1][teal]{%
+    enhanced,
+    on line,
+    arc=0pt,
+    colback=white!90!#1,
+    colframe=#1,
+    %before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=.5pt,
+    %rightrule=3pt,
+    %leftrule=3pt,
+    boxsep=0pt,
+    left=3pt,
+    right=12pt,
+    top=2pt,
+    bottom=4pt,
+    sharp corners,
+    rounded corners=southeast,
+    arc is angular,
+    arc=3mm,
+    underlay={%
+        \path[fill=white!60!#1]
+        ([yshift=3mm]interior.south east)-- ++ (-0.4,-0.1)--++(0.1,-0.2);
+        \path[draw=#1,shorten <=-0.05mm,shorten >=-0.05mm] ([yshift=3mm]interior.south east) -- ++(-0.4,-0.1)--++(0.1,-0.2);
+        },
+    drop fuzzy shadow=#1
+}
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxtwo}[1][red]{%
+    on line,
+    arc=3pt,
+    colback=yellow!5,
+    colframe=#1,
+    before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=.5pt,
+    leftrule=3pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt}
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxthree}[1][red]{%
+    on line,
+    arc=3pt,
+    colback=yellow!5,
+    colframe=#1,
+    before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=.5pt,
+    rightrule=3pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt}
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxfour}[1][red]{%
+    enhanced,
+    on line,
+    arc=3pt,
+    colback=yellow!5,
+    colframe=#1,
+    before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=.5pt,
+    rightrule=3pt,
+    leftrule=3pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt,
+    drop shadow=gray!50!#1}
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxfive}[1][teal]{%
+    enhanced,
+    on line,
+    arc=0pt,
+    colback=white!90!#1,
+    colframe=#1,
+    before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=0pt,
+    rightrule=3pt,
+    leftrule=3pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt,
+    drop shadow=gray!40!white!90!#1}
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxsix}[1][teal]{%
+    enhanced,
+    on line,
+    arc=3pt,
+    colback=white!90!#1,
+    colframe=#1,
+    %before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=1pt,
+    %rightrule=3pt,
+    %leftrule=3pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt,
+    drop midday shadow=gray!40!white!90!#1}
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxseven}[1][teal]{%
+    enhanced,
+    on line,
+    arc=3pt,
+    colback=white!90!#1,
+    colframe=#1,
+    %before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=1pt,
+    %rightrule=3pt,
+    %leftrule=3pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt,
+    drop fuzzy shadow=#1}
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxeight}[1][teal]{%
+    enhanced,
+    on line,
+    arc=3pt,
+    colback=white!90!#1,
+    colframe=#1,
+    %before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=1pt,
+    %rightrule=3pt,
+    %leftrule=3pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt,
+    drop fuzzy midday shadow=#1}
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxnine}[1][teal]{%
+    enhanced,
+    on line,
+    arc=3pt,
+    colback=white!90!#1,
+    colframe=#1,
+    before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=1pt,
+    %rightrule=3pt,
+    %leftrule=3pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt,
+    fuzzy halo=0mm with #1}
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxten}[1][teal]{%
+    enhanced,
+    on line,
+    arc=3pt,
+    colback=white!90!#1,
+    colframe=#1,
+    %before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=1pt,
+    %rightrule=3pt,
+    %leftrule=3pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt,
+    fuzzy shadow={1.0mm}{-1.0mm}{0.12mm}{0mm}{blue!50!white},
+    fuzzy shadow={-1.0mm}{-1.0mm}{0.12mm}{0mm}{red!50!white},
+    fuzzy shadow={-1.0mm}{1.0mm}{0.12mm}{0mm}{green!50!white},
+    fuzzy shadow={1.0mm}{1.0mm}{0.12mm}{0mm}{yellow!50!white}
+    }
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxeleven}[1][teal]{%
+    enhanced,
+    on line,
+    arc=3pt,
+    colback=white!90!#1,
+    colframe=#1,
+    %before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=1pt,
+    %rightrule=3pt,
+    %leftrule=3pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt,
+    drop small lifted shadow=#1
+    }
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxtwelve}[1][teal]{%
+    enhanced,
+    on line,
+    arc=3pt,
+    colback=white!90!#1,
+    colframe=#1,
+    %before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=0pt,
+    rightrule=3pt,
+    leftrule=3pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt,
+    drop small lifted shadow=#1
+    }
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxthirteen}[1][teal]{%
+    enhanced,
+    on line,
+    arc=0pt,
+    colback=white!90!#1,
+    colframe=#1,
+    %before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=0pt,
+    %rightrule=3pt,
+    %leftrule=3pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt,
+    sharp corners,
+    %drop small lifted shadow=#1,
+    underlay={
+        \tcbvignette{size=1mm,
+            outside node=frame,
+            raised color=green!50!yellow!50!#1}
+            }
+    }
+%%%%%%%%%%%%%%%%
+\newtcbox{\myboxfourteen}[1][teal]{%
+    enhanced,
+    on line,
+    arc=0pt,
+    colback=white!90!#1,
+    colframe=#1,
+    before upper={\rule[-3pt]{0pt}{10pt}},
+    boxrule=0pt,
+    %rightrule=3pt,
+    %leftrule=3pt,
+    boxsep=0pt,
+    left=6pt,
+    right=6pt,
+    top=2pt,
+    bottom=2pt,
+    sharp corners,
+    %drop small lifted shadow=#1,
+    underlay vignette={
+        color from=white!10!#1 to white!90!#1,
+        draw method=clipped,
+        size=0.9mm}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%--CÁC LỆNH KHAI BÁO HỘP CÓ BỘ ĐẾM--%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcolorbox[auto counter,number within=chapter]
+    {tcbcounterone}[2][]{
+    enhanced jigsaw,
+    breakable,
+    left skip=5mm,
+    overlay unbroken={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt]
+            ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+        \node[circle,fill=orange!80!black,
+            inner sep=4pt,minimum size=0.8cm]
+            at ([xshift=-0.1cm]frame.north west){\color{white} \Large \bfseries \thetcbcounter};
+            },
+    overlay first={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+         \node[circle,fill=orange!80!black,
+            inner sep=4pt,minimum size=0.8cm] at ([xshift=-0.1cm]frame.north west){\color{white} \Large  \bfseries\thetcbcounter};
+            },
+    overlay middle={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    overlay last={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    frame hidden,
+    colframe=red,
+    colback=white,
+    colbacktitle=white,
+    coltitle=cyan,
+    top=0.5cm,
+    fonttitle=\bfseries,
+    attach boxed title to top left={
+        xshift=1cm,
+        yshift=-0.3cm
+        },
+    boxed title style={frame hidden},
+    title={#2},#1
+    }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%KHAI BÁO HỘP tcolorbox VỚI \DeclareTColorBox%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RenewTColorBox{myboxx}{O{teal} m d"" O{}}
+{enhanced,
+breakable,
+colframe=#1,
+colback=white!95!#1,
+colbacktitle=white!80!#1,
+coltitle=black!80!#1,
+fonttitle=\bfseries,
+%boxrule=0pt,
+%coltext=white,
+IfValueTF={#3}{watermark text={#3}}{},
+attach boxed title to top center=
+        {yshift=-0.25mm-\tcboxedtitleheight/2,
+            yshifttext=2mm-\tcboxedtitleheight/2},
+    boxed title style={boxrule=0.5mm,
+        frame code={\path[tcb fill frame]
+            ([xshift=-4mm]frame.west)
+            -- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+            -- (frame.south east) -- (frame.south west) -- cycle;},
+        interior code={\path[tcb fill interior]
+        ([xshift=-2mm]interior.west)
+        -- (interior.north west)
+        -- (interior.north east)
+        -- ([xshift=2mm]interior.east)
+        -- (interior.south east)
+        -- (interior.south west)-- cycle;},
+            },
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbone}{O{teal} m d"" O{}}
+{enhanced,
+breakable,
+colframe=#1,
+colback=white!95!#1,
+colbacktitle=white!80!#1,
+coltitle=black!80!#1,
+fonttitle=\bfseries,
+IfValueTF={#3}{watermark text={#3}}{},
+attach boxed title to top center=
+        {yshift=-0.25mm-\tcboxedtitleheight/2,
+            yshifttext=2mm-\tcboxedtitleheight/2},
+    boxed title style={boxrule=0.5mm,
+        frame code={\path[tcb fill frame]
+            ([xshift=-4mm]frame.west)
+            -- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+            -- (frame.south east) -- (frame.south west) -- cycle;},
+        interior code={\path[tcb fill interior]
+        ([xshift=-2mm]interior.west)
+        -- (interior.north west)
+        -- (interior.north east)
+        -- ([xshift=2mm]interior.east)
+        -- (interior.south east)
+        -- (interior.south west)-- cycle;},
+            },
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbtwo}{O{teal} m d"" O{}}
+{enhanced,
+breakable,
+arc=2mm,
+colframe=#1,
+colback=white!95!#1,
+colbacktitle=white!80!#1,
+coltitle=black!80!#1,
+fonttitle=\bfseries,
+IfValueTF={#3}{watermark text={#3}}{},
+attach boxed title to top center=
+        {yshift=-0.25mm-\tcboxedtitleheight/2,
+            yshifttext=2mm-\tcboxedtitleheight/2},
+    boxed title style={boxrule=0.5mm,
+        frame code={\path[tcb fill frame]
+            ([xshift=-4mm]frame.west)
+            -- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+            -- (frame.south east) -- (frame.south west) -- cycle;},
+        interior code={\path[tcb fill interior]
+        ([xshift=-2mm]interior.west)
+        -- (interior.north west)
+        -- (interior.north east)
+        -- ([xshift=2mm]interior.east)
+        -- (interior.south east)
+        -- (interior.south west)-- cycle;},
+            },
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbthree}{O{teal} m d"" O{}}
+{enhanced,
+breakable,
+arc=2mm,
+colframe=#1,
+colback=white!95!#1,
+colbacktitle=white!80!#1,
+coltitle=black!80!#1,
+fonttitle=\bfseries,
+IfValueTF={#3}{watermark text={#3}}{},
+attach boxed title to top center=
+        {yshift=-0.25mm-\tcboxedtitleheight/2,
+            yshifttext=2mm-\tcboxedtitleheight/2},
+    boxed title style={boxrule=0.5mm,
+        frame code={\path[tcb fill frame]
+            ([xshift=-4mm]frame.west)
+            -- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+            -- (frame.south east) -- (frame.south west) -- cycle;},
+        interior code={\path[tcb fill interior]
+        ([xshift=-2mm]interior.west)
+        -- (interior.north west)
+        -- (interior.north east)
+        -- ([xshift=2mm]interior.east)
+        -- (interior.south east)
+        -- (interior.south west)-- cycle;},
+            },
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    drop fuzzy shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfour}{O{teal} m d"" O{}}
+{enhanced,
+breakable,
+arc=2mm,
+colframe=#1,
+colback=white!95!#1,
+colbacktitle=white!80!#1,
+coltitle=black!80!#1,
+fonttitle=\bfseries,
+IfValueTF={#3}{watermark text={#3}}{},
+attach boxed title to top center=
+        {yshift=-0.25mm-\tcboxedtitleheight/2,
+            yshifttext=2mm-\tcboxedtitleheight/2},
+    boxed title style={boxrule=0.5mm,
+        frame code={\path[tcb fill frame]
+            ([xshift=-4mm]frame.west)
+            -- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+            -- (frame.south east) -- (frame.south west) -- cycle;},
+        interior code={\path[tcb fill interior]
+        ([xshift=-2mm]interior.west)
+        -- (interior.north west)
+        -- (interior.north east)
+        -- ([xshift=2mm]interior.east)
+        -- (interior.south east)
+        -- (interior.south west)-- cycle;},
+            },
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfive}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    attach boxed title to top center={xshift=0cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=white!50!#1]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=white!2!#1,
+            bottom color=white!2!#1,
+            middle color=white!80!#1]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    %drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbsix}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    attach boxed title to top center={xshift=0cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=white!50!#1]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=white!2!#1,
+            bottom color=white!2!#1,
+            middle color=white!80!#1]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbseven}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    attach boxed title to top center={xshift=0cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=white!50!#1]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=white!2!#1,
+            bottom color=white!2!#1,
+            middle color=white!80!#1]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    drop fuzzy shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbeight}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    attach boxed title to top center={xshift=0cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=white!50!#1]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=white!2!#1,
+            bottom color=white!2!#1,
+            middle color=white!80!#1]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbnine}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    attach boxed title to top center={xshift=0cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=white!50!#1]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=white!2!#1,
+            bottom color=white!2!#1,
+            middle color=white!80!#1]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbten}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=0mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    leftrule=2mm,
+    attach boxed title to top left =
+        {xshift=0cm,yshift*=0mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \coordinate (A) at (frame.north east);
+            \coordinate (B) at (frame.south east);
+            \path[fill=#1](frame.north east)--([xshift=-2mm]frame.north west)--([xshift=-2mm]frame.south west)--(frame.south east) --([xshift=3mm]$(A)!0.5!(B)$)--cycle;
+            \draw[white,line width=2pt]([xshift=-2mm]frame.north east)--([xshift=1mm]$(A)!0.5!(B)$)--([xshift=-2mm]frame.south east);
+            \path[fill=white!50!#1]([xshift=-2mm]frame.south west)--+(2mm,-2mm)|-cycle;
+            },
+        interior engine=empty,
+        },
+    title style={right color=black!50!#1,left color=blue},
+    frame style={left color=black!25!#1,right color=blue},
+    %drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbeleven}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=0mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    leftrule=2mm,
+    attach boxed title to top left =
+        {xshift=0cm,yshift*=0mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \coordinate (A) at (frame.north east);
+            \coordinate (B) at (frame.south east);
+            \path[fill=#1](frame.north east)--([xshift=-2mm]frame.north west)--([xshift=-2mm]frame.south west)--(frame.south east) --([xshift=3mm]$(A)!0.5!(B)$)--cycle;
+            \draw[white,line width=2pt]([xshift=-2mm]frame.north east)--([xshift=1mm]$(A)!0.5!(B)$)--([xshift=-2mm]frame.south east);
+            \path[fill=white!50!#1]([xshift=-2mm]frame.south west)--+(2mm,-2mm)|-cycle;
+            },
+        interior engine=empty,
+        },
+    title style={right color=black!50!#1,left color=blue},
+    frame style={left color=black!25!#1,right color=blue},
+    drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbtwelve}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=0mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    leftrule=2mm,
+    attach boxed title to top left =
+        {xshift=0cm,yshift*=0mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \coordinate (A) at (frame.north east);
+            \coordinate (B) at (frame.south east);
+            \path[fill=#1](frame.north east)--([xshift=-2mm]frame.north west)--([xshift=-2mm]frame.south west)--(frame.south east) --([xshift=3mm]$(A)!0.5!(B)$)--cycle;
+            \draw[white,line width=2pt]([xshift=-2mm]frame.north east)--([xshift=1mm]$(A)!0.5!(B)$)--([xshift=-2mm]frame.south east);
+            \path[fill=white!50!#1]([xshift=-2mm]frame.south west)--+(2mm,-2mm)|-cycle;
+            },
+        interior engine=empty,
+        },
+    title style={right color=black!50!#1,left color=blue},
+    frame style={left color=black!25!#1,right color=blue},
+    drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbthirteen}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=0mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    leftrule=2mm,
+    attach boxed title to top left =
+        {xshift=0cm,yshift*=0mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \coordinate (A) at (frame.north east);
+            \coordinate (B) at (frame.south east);
+            \path[fill=#1](frame.north east)--([xshift=-2mm]frame.north west)--([xshift=-2mm]frame.south west)--(frame.south east) --([xshift=3mm]$(A)!0.5!(B)$)--cycle;
+            \draw[white,line width=2pt]([xshift=-2mm]frame.north east)--([xshift=1mm]$(A)!0.5!(B)$)--([xshift=-2mm]frame.south east);
+            \path[fill=white!50!#1]([xshift=-2mm]frame.south west)--+(2mm,-2mm)|-cycle;
+            },
+        interior engine=empty,
+        },
+    title style={right color=black!50!#1,left color=blue},
+    frame style={left color=black!25!#1,right color=blue},
+    drop fuzzy shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfourteen}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=1mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    leftrule=2mm,
+    attach boxed title to top left =
+        {xshift=0cm,yshift*=0mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \coordinate (A) at (frame.north east);
+            \coordinate (B) at (frame.south east);
+            \path[fill=#1](frame.north east)--([xshift=-2mm]frame.north west)--([xshift=-2mm]frame.south west)--(frame.south east) --([xshift=3mm]$(A)!0.5!(B)$)--cycle;
+            \draw[white,line width=2pt]([xshift=-2mm]frame.north east)--([xshift=1mm]$(A)!0.5!(B)$)--([xshift=-2mm]frame.south east);
+            \path[fill=white!50!#1]([xshift=-2mm]frame.south west)--+(2mm,-2mm)|-cycle;
+            },
+        interior engine=empty,
+        },
+    title style={right color=black!50!#1,left color=blue},
+    frame style={left color=black!25!#1,right color=blue},
+    drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfifteen}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=1mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    leftrule=2mm,
+    attach boxed title to top right =
+        {xshift=0cm,yshift*=0.5mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path
+            (frame.south east)coordinate(A)
+            (frame.north east)coordinate(B)
+            (frame.north west)coordinate(C)
+            (frame.south west)coordinate(D);
+            \path[fill=#1]([xshift=2mm]A)--([xshift=2mm]B)
+                --([xshift=-2mm]C)-- ([xshift=-5mm]$(C)!0.5!(D)$)
+                --([xshift=-2mm]D)--cycle;
+            \draw[cap=round,white,line width=2pt,transform canvas={xshift=2mm}]
+            ([xshift=-2mm]C)-- ([xshift=-5mm]$(C)!0.5!(D)$)
+                --([xshift=-2mm]D);
+            \path[fill=white!50!#1]
+                ([xshift=2mm]A)--([yshift=-2mm]A)
+                --(A)--cycle;
+            },
+        interior engine=empty,
+        },
+    title style={right color=black!50!#1,left color=blue},
+    frame style={left color=black!25!#1,right color=blue},
+    %drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbsixteen}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=1mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    leftrule=2mm,
+    attach boxed title to top right =
+        {xshift=0cm,yshift*=0.5mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path
+            (frame.south east)coordinate(A)
+            (frame.north east)coordinate(B)
+            (frame.north west)coordinate(C)
+            (frame.south west)coordinate(D);
+            \path[fill=#1]([xshift=2mm]A)--([xshift=2mm]B)
+                --([xshift=-2mm]C)-- ([xshift=-5mm]$(C)!0.5!(D)$)
+                --([xshift=-2mm]D)--cycle;
+            \draw[cap=round,white,line width=2pt,transform canvas={xshift=2mm}]
+            ([xshift=-2mm]C)-- ([xshift=-5mm]$(C)!0.5!(D)$)
+                --([xshift=-2mm]D);
+            \path[fill=white!50!#1]
+                ([xshift=2mm]A)--([yshift=-2mm]A)
+                --(A)--cycle;
+            },
+        interior engine=empty,
+        },
+    title style={right color=black!50!#1,left color=blue},
+    frame style={left color=black!25!#1,right color=blue},
+    drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbseventeen}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=1mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    leftrule=2mm,
+    attach boxed title to top right =
+        {xshift=0cm,yshift*=0.5mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path
+            (frame.south east)coordinate(A)
+            (frame.north east)coordinate(B)
+            (frame.north west)coordinate(C)
+            (frame.south west)coordinate(D);
+            \path[fill=#1]([xshift=2mm]A)--([xshift=2mm]B)
+                --([xshift=-2mm]C)-- ([xshift=-5mm]$(C)!0.5!(D)$)
+                --([xshift=-2mm]D)--cycle;
+            \draw[cap=round,white,line width=2pt,transform canvas={xshift=2mm}]
+            ([xshift=-2mm]C)-- ([xshift=-5mm]$(C)!0.5!(D)$)
+                --([xshift=-2mm]D);
+            \path[fill=white!50!#1]
+                ([xshift=2mm]A)--([yshift=-2mm]A)
+                --(A)--cycle;
+            },
+        interior engine=empty,
+        },
+    title style={right color=black!50!#1,left color=blue},
+    frame style={left color=black!25!#1,right color=blue},
+    drop fuzzy shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbeightteen}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=1mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    leftrule=2mm,
+    attach boxed title to top right =
+        {xshift=0cm,yshift*=0.5mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path
+            (frame.south east)coordinate(A)
+            (frame.north east)coordinate(B)
+            (frame.north west)coordinate(C)
+            (frame.south west)coordinate(D);
+            \path[fill=#1]([xshift=2mm]A)--([xshift=2mm]B)
+                --([xshift=-2mm]C)-- ([xshift=-5mm]$(C)!0.5!(D)$)
+                --([xshift=-2mm]D)--cycle;
+            \draw[cap=round,white,line width=2pt,transform canvas={xshift=2mm}]
+            ([xshift=-2mm]C)-- ([xshift=-5mm]$(C)!0.5!(D)$)
+                --([xshift=-2mm]D);
+            \path[fill=white!50!#1]
+                ([xshift=2mm]A)--([yshift=-2mm]A)
+                --(A)--cycle;
+            },
+        interior engine=empty,
+        },
+    title style={right color=black!50!#1,left color=blue},
+    frame style={left color=black!25!#1,right color=blue},
+    drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbnineteen}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=1mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=black!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    leftrule=2mm,
+    attach boxed title to top right =
+        {xshift=0cm,yshift*=0.5mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path
+            (frame.south east)coordinate(A)
+            (frame.north east)coordinate(B)
+            (frame.north west)coordinate(C)
+            (frame.south west)coordinate(D);
+            \path[fill=#1]([xshift=2mm]A)--([xshift=2mm]B)
+                --([xshift=-2mm]C)-- ([xshift=-5mm]$(C)!0.5!(D)$)
+                --([xshift=-2mm]D)--cycle;
+            \draw[cap=round,white,line width=2pt,transform canvas={xshift=2mm}]
+            ([xshift=-2mm]C)-- ([xshift=-5mm]$(C)!0.5!(D)$)
+                --([xshift=-2mm]D);
+            \path[fill=white!50!#1]
+                ([xshift=2mm]A)--([yshift=-2mm]A)
+                --(A)--cycle;
+            },
+        interior engine=empty,
+        },
+    title style={right color=black!50!#1,left color=blue},
+    frame style={left color=black!25!#1,right color=blue},
+    drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbtwenty}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    sharp corners,
+    rounded corners=southwest,
+    rounded corners=northeast,
+    attach boxed title to top center={xshift=0cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=red!80!#1]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=#1,
+            bottom color=white!20!#1,
+            middle color=white!50!#1]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    underlay unbroken and last=
+        {
+        \path[fill=#1,draw=#1] (interior.south east)--++(0,0.2)
+        --([xshift=-2cm,yshift=0.2cm]interior.south east) to[bend right=3pt] ([xshift=-2.75cm,yshift=0mm]interior.south east)--cycle;
+		},
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    %drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbtwentyone}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    sharp corners,
+    rounded corners=southwest,
+    rounded corners=northeast,
+    attach boxed title to top center={xshift=0cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=red!80!#1]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=#1,
+            bottom color=white!20!#1,
+            middle color=white!50!#1]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    underlay unbroken and last=
+        {
+        \path[fill=#1,draw=#1] (interior.south east)--++(0,0.2)
+        --([xshift=-2cm,yshift=0.2cm]interior.south east) to[bend right=3pt] ([xshift=-2.75cm,yshift=0mm]interior.south east)--cycle;
+		},
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbtwentytwo}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    sharp corners,
+    rounded corners=southwest,
+    rounded corners=northeast,
+    attach boxed title to top center={xshift=0cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=red!80!#1]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=#1,
+            bottom color=white!20!#1,
+            middle color=white!50!#1]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    underlay unbroken and last=
+        {
+        \path[fill=#1,draw=#1] (interior.south east)--++(0,0.2)
+        --([xshift=-2cm,yshift=0.2cm]interior.south east) to[bend right=3pt] ([xshift=-2.75cm,yshift=0mm]interior.south east)--cycle;
+		},
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbtwentythree}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    sharp corners,
+    rounded corners=southwest,
+    rounded corners=northeast,
+    attach boxed title to top center={xshift=0cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=red!80!#1]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=#1,
+            bottom color=white!20!#1,
+            middle color=white!50!#1]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    underlay unbroken and last=
+        {
+        \path[fill=#1,draw=#1] (interior.south east)--++(0,0.2)
+        --([xshift=-2cm,yshift=0.2cm]interior.south east) to[bend right=3pt] ([xshift=-2.75cm,yshift=0mm]interior.south east)--cycle;
+		},
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    drop fuzzy shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbtwentythree}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    sharp corners,
+    rounded corners=southwest,
+    rounded corners=northeast,
+    attach boxed title to top center={xshift=0cm,yshift*=1mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=red!80!#1]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=#1,
+            bottom color=white!20!#1,
+            middle color=white!50!#1]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    underlay unbroken and last=
+        {
+        \path[fill=#1,draw=#1] (interior.south east)--++(0,0.2)
+        --([xshift=-2cm,yshift=0.2cm]interior.south east) to[bend right=3pt] ([xshift=-2.75cm,yshift=0mm]interior.south east)--cycle;
+		},
+    title style={left color=black!50!#1,right color=blue},
+    frame style={right color=black!25!#1,left color=blue},
+    drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbtwentyfour}{O{cyan} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    title style={left color=black!50!#1,right color=blue!50!#1},
+    frame style={right color=black!25!#1,left color=blue!50!#1},
+    %drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbtwentyfive}{O{cyan} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    title style={left color=black!50!#1,right color=blue!50!#1},
+    frame style={right color=black!25!#1,left color=blue!50!#1},
+    drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbtwentysix}{O{cyan} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    title style={left color=black!50!#1,right color=blue!50!#1},
+    frame style={right color=black!25!#1,left color=blue!50!#1},
+    drop fuzzy shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbtwentyseven}{O{cyan} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    title style={left color=black!50!#1,right color=blue!50!#1},
+    frame style={right color=black!25!#1,left color=blue!50!#1},
+    drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbtwentyeight}{O{cyan} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    title style={left color=black!50!#1,right color=blue!50!#1},
+    frame style={right color=black!25!#1,left color=blue!50!#1},
+    drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbtwentynine}{O{green} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=white!2!#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    attach boxed title to top left={
+        xshift=1cm,
+        yshift*=1mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=tcbcolback!30!black]
+            ([yshift=-1mm,xshift=-1mm]frame.north west)
+            arc[start angle=0,end angle=180,radius=1mm]
+            ([yshift=-1mm,xshift=1mm]frame.north east)
+            arc[start angle=180,end angle=0,radius=1mm];
+            \path[left color=tcbcolback!60!black,right color=tcbcolback!60!black,middle color=tcbcolback!80!black]
+            ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+            [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)-- (frame.south east) -- (frame.south west)-- ([xshift=-1mm,yshift=-1mm]frame.north west)[sharp corners]-- cycle;
+            },
+        interior engine=empty,
+    },
+    fonttitle=\bfseries,
+    title style={left color=black!50!#1,right color=blue!90!#1},
+    frame style={right color=black!25!#1,left color=blue!90!#1},
+    %drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbthirty}{O{blue} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=white!2!#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    attach boxed title to top left={
+        xshift=1cm,
+        yshift*=1mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=tcbcolback!30!black]
+            ([yshift=-1mm,xshift=-1mm]frame.north west)
+            arc[start angle=0,end angle=180,radius=1mm]
+            ([yshift=-1mm,xshift=1mm]frame.north east)
+            arc[start angle=180,end angle=0,radius=1mm];
+            \path[left color=tcbcolback!60!black,right color=tcbcolback!60!black,middle color=tcbcolback!80!black]
+            ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+            [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)-- (frame.south east) -- (frame.south west)-- ([xshift=-1mm,yshift=-1mm]frame.north west)[sharp corners]-- cycle;
+            },
+        interior engine=empty,
+    },
+    fonttitle=\bfseries,
+    title style={left color=black!50!#1,right color=blue!90!#1},
+    frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbthirtyone}{O{purple} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=white!2!#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    attach boxed title to top left={
+        xshift=1cm,
+        yshift*=1mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=tcbcolback!30!black]
+            ([yshift=-1mm,xshift=-1mm]frame.north west)
+            arc[start angle=0,end angle=180,radius=1mm]
+            ([yshift=-1mm,xshift=1mm]frame.north east)
+            arc[start angle=180,end angle=0,radius=1mm];
+            \path[left color=tcbcolback!60!black,right color=tcbcolback!60!black,middle color=tcbcolback!80!black]
+            ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+            [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)-- (frame.south east) -- (frame.south west)-- ([xshift=-1mm,yshift=-1mm]frame.north west)[sharp corners]-- cycle;
+            },
+        interior engine=empty,
+    },
+    fonttitle=\bfseries,
+    title style={left color=black!50!#1,right color=blue!90!#1},
+    frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbthirtytwo}{O{cyan} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=white!2!#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    attach boxed title to top left={
+        xshift=1cm,
+        yshift*=1mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=tcbcolback!30!black]
+            ([yshift=-1mm,xshift=-1mm]frame.north west)
+            arc[start angle=0,end angle=180,radius=1mm]
+            ([yshift=-1mm,xshift=1mm]frame.north east)
+            arc[start angle=180,end angle=0,radius=1mm];
+            \path[left color=tcbcolback!60!black,right color=tcbcolback!60!black,middle color=tcbcolback!80!black]
+            ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+            [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)-- (frame.south east) -- (frame.south west)-- ([xshift=-1mm,yshift=-1mm]frame.north west)[sharp corners]-- cycle;
+            },
+        interior engine=empty,
+    },
+    fonttitle=\bfseries,
+    title style={left color=black!50!#1,right color=blue!90!#1},
+    frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop fuzzy shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbthirtythree}{O{orange} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=white!2!#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.2mm,
+    attach boxed title to top left={
+        xshift=1cm,
+        yshift*=1mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=tcbcolback!30!black]
+            ([yshift=-1mm,xshift=-1mm]frame.north west)
+            arc[start angle=0,end angle=180,radius=1mm]
+            ([yshift=-1mm,xshift=1mm]frame.north east)
+            arc[start angle=180,end angle=0,radius=1mm];
+            \path[left color=tcbcolback!60!black,right color=tcbcolback!60!black,middle color=tcbcolback!80!black]
+            ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+            [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)-- (frame.south east) -- (frame.south west)-- ([xshift=-1mm,yshift=-1mm]frame.north west)[sharp corners]-- cycle;
+            },
+        interior engine=empty,
+    },
+    fonttitle=\bfseries,
+    title style={left color=black!50!#1,right color=blue!90!#1},
+    frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbthirtyfour}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    %interior hidden,
+    boxsep=0pt,
+    fonttitle=\bfseries,
+    attach boxed title to bottom center,
+    boxed title style={empty,boxrule=0.5mm},
+    %varwidth boxed title=0.5\linewidth,
+    underlay boxed title={
+        \draw[white!95!#1,line width=0.5mm] ([xshift=0.3mm-\tcboxedtitleheight*2,yshift=0.3mm]title.north west)--([xshift=-0.3mm+\tcboxedtitleheight*2,yshift=0.3mm]title.north east);
+        \path[draw=#1,
+            top color=white!95!#1,
+            middle color=white!50!#1,
+            bottom color=#1,
+            line width=0.5mm] ([xshift=0.25mm-\tcboxedtitleheight*2,yshift=0.25mm]title.north west) cos +(\tcboxedtitleheight,-\tcboxedtitleheight/2) sin +(\tcboxedtitleheight,-\tcboxedtitleheight/2)-- ([xshift=0.25mm,yshift=0.25mm]title.south west)-- ([yshift=0.25mm]title.south east) cos +(\tcboxedtitleheight,\tcboxedtitleheight/2) sin +(\tcboxedtitleheight,\tcboxedtitleheight/2); },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    %drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbthirtyfive}{O{blue} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    %interior hidden,
+    boxsep=0pt,
+    fonttitle=\bfseries,
+    attach boxed title to bottom center,
+    boxed title style={empty,boxrule=0.5mm},
+    %varwidth boxed title=0.5\linewidth,
+    underlay boxed title={
+        \draw[white!95!#1,line width=0.5mm] ([xshift=0.3mm-\tcboxedtitleheight*2,yshift=0.3mm]title.north west)--([xshift=-0.3mm+\tcboxedtitleheight*2,yshift=0.3mm]title.north east);
+        \path[draw=#1,
+            top color=white!95!#1,
+            middle color=white!50!#1,
+            bottom color=#1,
+            line width=0.5mm] ([xshift=0.25mm-\tcboxedtitleheight*2,yshift=0.25mm]title.north west) cos +(\tcboxedtitleheight,-\tcboxedtitleheight/2) sin +(\tcboxedtitleheight,-\tcboxedtitleheight/2)-- ([xshift=0.25mm,yshift=0.25mm]title.south west)-- ([yshift=0.25mm]title.south east) cos +(\tcboxedtitleheight,\tcboxedtitleheight/2) sin +(\tcboxedtitleheight,\tcboxedtitleheight/2); },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbthirtysix}{O{purple} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    %interior hidden,
+    boxsep=0pt,
+    fonttitle=\bfseries,
+    attach boxed title to bottom center,
+    boxed title style={empty,boxrule=0.5mm},
+    %varwidth boxed title=0.5\linewidth,
+    underlay boxed title={
+        \draw[white!95!#1,line width=0.5mm] ([xshift=0.3mm-\tcboxedtitleheight*2,yshift=0.3mm]title.north west)--([xshift=-0.3mm+\tcboxedtitleheight*2,yshift=0.3mm]title.north east);
+        \path[draw=#1,
+            top color=white!95!#1,
+            middle color=white!50!#1,
+            bottom color=#1,
+            line width=0.5mm] ([xshift=0.25mm-\tcboxedtitleheight*2,yshift=0.25mm]title.north west) cos +(\tcboxedtitleheight,-\tcboxedtitleheight/2) sin +(\tcboxedtitleheight,-\tcboxedtitleheight/2)-- ([xshift=0.25mm,yshift=0.25mm]title.south west)-- ([yshift=0.25mm]title.south east) cos +(\tcboxedtitleheight,\tcboxedtitleheight/2) sin +(\tcboxedtitleheight,\tcboxedtitleheight/2); },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop fuzzy shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbthirtyseven}{O{green} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    %interior hidden,
+    boxsep=0pt,
+    fonttitle=\bfseries,
+    attach boxed title to bottom center,
+    boxed title style={empty,boxrule=0.5mm},
+    %varwidth boxed title=0.5\linewidth,
+    underlay boxed title={
+        \draw[white!95!#1,line width=0.5mm] ([xshift=0.3mm-\tcboxedtitleheight*2,yshift=0.3mm]title.north west)--([xshift=-0.3mm+\tcboxedtitleheight*2,yshift=0.3mm]title.north east);
+        \path[draw=#1,
+            top color=white!95!#1,
+            middle color=white!50!#1,
+            bottom color=#1,
+            line width=0.5mm] ([xshift=0.25mm-\tcboxedtitleheight*2,yshift=0.25mm]title.north west) cos +(\tcboxedtitleheight,-\tcboxedtitleheight/2) sin +(\tcboxedtitleheight,-\tcboxedtitleheight/2)-- ([xshift=0.25mm,yshift=0.25mm]title.south west)-- ([yshift=0.25mm]title.south east) cos +(\tcboxedtitleheight,\tcboxedtitleheight/2) sin +(\tcboxedtitleheight,\tcboxedtitleheight/2); },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbthirtyeight}{O{cyan} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    %interior hidden,
+    boxsep=0pt,
+    fonttitle=\bfseries,
+    attach boxed title to bottom center,
+    boxed title style={empty,boxrule=0.5mm},
+    %varwidth boxed title=0.5\linewidth,
+    underlay boxed title={
+        \draw[white!95!#1,line width=0.5mm] ([xshift=0.3mm-\tcboxedtitleheight*2,yshift=0.3mm]title.north west)--([xshift=-0.3mm+\tcboxedtitleheight*2,yshift=0.3mm]title.north east);
+        \path[draw=#1,
+            top color=white!95!#1,
+            middle color=white!50!#1,
+            bottom color=#1,
+            line width=0.5mm] ([xshift=0.25mm-\tcboxedtitleheight*2,yshift=0.25mm]title.north west) cos +(\tcboxedtitleheight,-\tcboxedtitleheight/2) sin +(\tcboxedtitleheight,-\tcboxedtitleheight/2)-- ([xshift=0.25mm,yshift=0.25mm]title.south west)-- ([yshift=0.25mm]title.south east) cos +(\tcboxedtitleheight,\tcboxedtitleheight/2) sin +(\tcboxedtitleheight,\tcboxedtitleheight/2); },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbthirtynine}{O{red} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    interior hidden,
+    boxsep=0pt,
+    fonttitle=\bfseries,
+    attach boxed title to bottom center,
+    boxed title style={empty,boxrule=0.5mm},
+    %varwidth boxed title=0.5\linewidth,
+    underlay boxed title={
+        \draw[white!95!#1,line width=0.5mm] ([xshift=0.3mm-\tcboxedtitleheight*2,yshift=0.3mm]title.north west)--([xshift=-0.3mm+\tcboxedtitleheight*2,yshift=0.3mm]title.north east);
+        \path[draw=#1,
+            top color=white!95!#1,
+            middle color=white!50!#1,
+            bottom color=#1,
+            line width=0.5mm] ([xshift=0.25mm-\tcboxedtitleheight*2,yshift=0.25mm]title.north west) cos +(\tcboxedtitleheight,-\tcboxedtitleheight/2) sin +(\tcboxedtitleheight,-\tcboxedtitleheight/2)-- ([xshift=0.25mm,yshift=0.25mm]title.south west)-- ([yshift=0.25mm]title.south east) cos +(\tcboxedtitleheight,\tcboxedtitleheight/2) sin +(\tcboxedtitleheight,\tcboxedtitleheight/2); },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    %drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbforty}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top left={
+        xshift=-4mm,
+        yshift=-0.5mm},
+    fonttitle=\bfseries,
+    %varwidth boxed title=0.7\linewidth,
+    %colbacktitle=blue!45!white,
+    %colframe=red!50!black,
+    interior style={
+        top color=white!95!#1,
+        bottom color=white!75!#1
+        },
+    boxed title style={empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[#1] (title.north west) -- (title.north east)-- +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm) -- ([xshift=4mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) -- (title.south west) -- cycle;
+        \fill[blue!45!white!50!black] ([yshift=-0.5mm]frame.north west) -- +(-0.4,0) -- +(0,-0.3) -- cycle;
+        \fill[blue!45!white!50!black] ([yshift=-0.5mm]frame.north east) -- +(0,-0.3) -- +(0.4,0) -- cycle;
+        },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    %drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfortyone}{O{red} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top left={
+        xshift=-4mm,
+        yshift=-0.5mm},
+    fonttitle=\bfseries,
+    %varwidth boxed title=0.7\linewidth,
+    %colbacktitle=blue!45!white,
+    %colframe=red!50!black,
+    %interior style={
+    %    top color=white!95!#1,
+    %    bottom color=white!75!#1
+    %    },
+    boxed title style={empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[#1] (title.north west) -- (title.north east)-- +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm) -- ([xshift=4mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) -- (title.south west) -- cycle;
+        \fill[blue!45!white!50!black] ([yshift=-0.5mm]frame.north west) -- +(-0.4,0) -- +(0,-0.3) -- cycle;
+        \fill[blue!45!white!50!black] ([yshift=-0.5mm]frame.north east) -- +(0,-0.3) -- +(0.4,0) -- cycle;
+        },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    %drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfortytwo}{O{cyan} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top left={
+        xshift=-4mm,
+        yshift=-0.5mm},
+    fonttitle=\bfseries,
+    %varwidth boxed title=0.7\linewidth,
+    %colbacktitle=blue!45!white,
+    %colframe=red!50!black,
+    %interior style={
+    %    top color=white!95!#1,
+    %    bottom color=white!75!#1
+    %    },
+    boxed title style={empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[#1] (title.north west) -- (title.north east)-- +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm) -- ([xshift=4mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) -- (title.south west) -- cycle;
+        \fill[blue!45!white!50!black] ([yshift=-0.5mm]frame.north west) -- +(-0.4,0) -- +(0,-0.3) -- cycle;
+        \fill[blue!45!white!50!black] ([yshift=-0.5mm]frame.north east) -- +(0,-0.3) -- +(0.4,0) -- cycle;
+        },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfortythree}{O{violet} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top left={
+        xshift=-4mm,
+        yshift=-0.5mm},
+    fonttitle=\bfseries,
+    %varwidth boxed title=0.7\linewidth,
+    %colbacktitle=blue!45!white,
+    %colframe=red!50!black,
+    %interior style={
+    %    top color=white!95!#1,
+    %    bottom color=white!75!#1
+    %    },
+    boxed title style={empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[#1] (title.north west) -- (title.north east)-- +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm) -- ([xshift=4mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) -- (title.south west) -- cycle;
+        \fill[blue!45!white!50!black] ([yshift=-0.5mm]frame.north west) -- +(-0.4,0) -- +(0,-0.3) -- cycle;
+        \fill[blue!45!white!50!black] ([yshift=-0.5mm]frame.north east) -- +(0,-0.3) -- +(0.4,0) -- cycle;
+        },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfortyfour}{O{DarkGreen} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top left={
+        xshift=-4mm,
+        yshift=-0.5mm},
+    fonttitle=\bfseries,
+    %varwidth boxed title=0.7\linewidth,
+    %colbacktitle=blue!45!white,
+    %colframe=red!50!black,
+    %interior style={
+    %    top color=white!95!#1,
+    %    bottom color=white!75!#1
+    %    },
+    boxed title style={empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[#1] (title.north west) -- (title.north east)-- +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm) -- ([xshift=4mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) -- (title.south west) -- cycle;
+        \fill[blue!45!white!50!black] ([yshift=-0.5mm]frame.north west) -- +(-0.4,0) -- +(0,-0.3) -- cycle;
+        \fill[blue!45!white!50!black] ([yshift=-0.5mm]frame.north east) -- +(0,-0.3) -- +(0.4,0) -- cycle;
+        },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop fuzzy shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfortyfive}{O{mynavy} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!95!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top left={
+        xshift=-4mm,
+        yshift=-0.5mm},
+    fonttitle=\bfseries,
+    %varwidth boxed title=0.7\linewidth,
+    %colbacktitle=blue!45!white,
+    %colframe=red!50!black,
+    %interior style={
+    %    top color=white!95!#1,
+    %    bottom color=white!75!#1
+    %    },
+    boxed title style={empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[#1] (title.north west) -- (title.north east)-- +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm) -- ([xshift=4mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) -- (title.south west) -- cycle;
+        \fill[blue!45!white!50!black] ([yshift=-0.5mm]frame.north west) -- +(-0.4,0) -- +(0,-0.3) -- cycle;
+        \fill[blue!45!white!50!black] ([yshift=-0.5mm]frame.north east) -- +(0,-0.3) -- +(0.4,0) -- cycle;
+        },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfortysix}{O{DarkGreen} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top center={xshift=0mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    interior style={
+        top color=white!90!#1,
+        bottom color=white!70!#1
+        },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[#1]
+        (title.north west) --
+        (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([shift={(-\tcboxedtitleheight+1mm,-\tcboxedtitleheight+1mm)}]title.north west)
+         -- cycle
+         ;
+         \fill[white!50!#1]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[white!50!#1]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         \draw[#1, line width=4pt]
+          ([xshift=-4mm,yshift=0mm]frame.north west)
+          --
+          ([xshift=4mm,yshift=0mm]frame.north east);
+          },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    %drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfortyseven}{O{mynavy} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top center={xshift=0mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    %interior style={
+    %    top color=white!80!#1,
+    %    bottom color=white!50!#1
+    %    },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[#1]
+        (title.north west) --
+        (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([shift={(-\tcboxedtitleheight+1mm,-\tcboxedtitleheight+1mm)}]title.north west)
+         -- cycle
+         ;
+         \fill[white!50!#1]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[white!50!#1]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         \draw[#1, line width=4pt]
+          ([xshift=-4mm,yshift=0mm]frame.north west)
+          --
+          ([xshift=4mm,yshift=0mm]frame.north east);
+          },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    %drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfortyeight}{O{cyan} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top center={xshift=0mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    %interior style={
+    %    top color=white!80!#1,
+    %    bottom color=white!50!#1
+    %    },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[#1]
+        (title.north west) --
+        (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([shift={(-\tcboxedtitleheight+1mm,-\tcboxedtitleheight+1mm)}]title.north west)
+         -- cycle
+         ;
+         \fill[white!50!#1]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[white!50!#1]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         \draw[#1, line width=4pt]
+          ([xshift=-4mm,yshift=0mm]frame.north west)
+          --
+          ([xshift=4mm,yshift=0mm]frame.north east);
+          },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfortynine}{O{magenta} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top center={xshift=0mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    %interior style={
+    %    top color=white!80!#1,
+    %    bottom color=white!50!#1
+    %    },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[#1]
+        (title.north west) --
+        (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([shift={(-\tcboxedtitleheight+1mm,-\tcboxedtitleheight+1mm)}]title.north west)
+         -- cycle
+         ;
+         \fill[white!50!#1]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[white!50!#1]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         \draw[#1, line width=4pt]
+          ([xshift=-4mm,yshift=0mm]frame.north west)
+          --
+          ([xshift=4mm,yshift=0mm]frame.north east);
+          },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop fuzzy shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfifty}{O{purple} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top center={xshift=0mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    %interior style={
+    %    top color=white!80!#1,
+    %    bottom color=white!50!#1
+    %    },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[#1]
+        (title.north west) --
+        (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([shift={(-\tcboxedtitleheight+1mm,-\tcboxedtitleheight+1mm)}]title.north west)
+         -- cycle
+         ;
+         \fill[white!50!#1]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[white!50!#1]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         \draw[#1, line width=4pt]
+          ([xshift=-4mm,yshift=0mm]frame.north west)
+          --
+          ([xshift=4mm,yshift=0mm]frame.north east);
+          },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfiftyone}{O{orange} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    top=0mm,
+    boxrule=0.5mm,
+    skin=enhancedlast jigsaw,
+    attach boxed title to top center={xshift=0mm,yshift=-0.5mm},
+    fonttitle=\bfseries\sffamily,
+    %interior style={
+    %    top color=white!80!#1,
+    %    bottom color=white!50!#1
+    %    },
+    boxed title style={
+        empty,
+        arc=0pt,
+        outer arc=0pt,
+        boxrule=0pt
+        },
+    underlay boxed title={
+        \fill[#1]
+        (title.north west) --
+        (title.north east) --
+         +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm)
+         --([shift={(-\tcboxedtitleheight+1mm,-\tcboxedtitleheight+1mm)}]title.north west)
+         -- cycle
+         ;
+         \fill[white!50!#1]
+         ([yshift=-0.5mm]frame.north west) --
+         +(-0.4,0) -- +(0,-0.3) -- cycle;
+         \fill[white!50!#1]
+         ([yshift=-0.5mm]frame.north east) --
+         +(0,-0.3) -- +(0.4,0) -- cycle;
+         \draw[#1, line width=4pt]
+          ([xshift=-4mm,yshift=0mm]frame.north west)
+          --
+          ([xshift=4mm,yshift=0mm]frame.north east);
+          },
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfiftytwo}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %top=0mm,
+    boxrule=0.5mm,
+    attach boxed title to top left={
+        xshift=1cm,
+        %yshift=-4mm,
+        yshift=-0.25mm-\tcboxedtitleheight/2,
+        yshifttext=2mm-\tcboxedtitleheight/2
+        },
+    %varwidth boxed title=0.7\linewidth,
+    %interior style={
+    %    top color=yellow!10!white,
+    %    bottom color=green!10!white},
+    boxed title style={
+        boxrule=0.75mm,
+        colframe=white,
+        borderline={0.3mm}{0mm}{green!50!#1},
+        borderline={0.3mm}{0.75mm}{green!50!#1},
+        interior style={
+            top color=white!10!#1,
+            bottom color=white!10!#1,
+            middle color=white!50!#1},
+        drop fuzzy shadow=#1},
+    %title style={left color=black!50!#1,right color=blue!90!#1},
+    %frame style={right color=black!25!#1,left color=blue!90!#1},
+    %drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfiftythree}{O{purple} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %top=0mm,
+    boxrule=0.5mm,
+    attach boxed title to top left={
+        xshift=1cm,
+        %yshift=-4mm,
+        yshift=-0.25mm-\tcboxedtitleheight/2,
+        yshifttext=2mm-\tcboxedtitleheight/2
+        },
+    %varwidth boxed title=0.7\linewidth,
+    %interior style={
+    %    top color=yellow!10!white,
+    %    bottom color=green!10!white},
+    %interior engine=empty,
+    boxed title style={
+        %interior engine=empty,
+        bottom=2pt,
+        boxrule=0.75mm,
+        colframe=white,
+        borderline={0.3mm}{0mm}{green!50!#1},
+        borderline={0.3mm}{0.75mm}{green!50!#1},
+        interior style={
+            top color=white!10!#1,
+            bottom color=white!10!#1,
+            middle color=white!50!#1},
+        drop fuzzy shadow=#1},
+    title style={left color=black!50!#1,right color=blue!90!#1},
+    frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop large lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfiftyfour}{O{DarkGreen} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %top=0mm,
+    boxrule=0.5mm,
+    attach boxed title to top left={
+        xshift=1cm,
+        %yshift=-4mm,
+        yshift=-0.25mm-\tcboxedtitleheight/2,
+        yshifttext=2mm-\tcboxedtitleheight/2
+        },
+    %varwidth boxed title=0.7\linewidth,
+    %interior style={
+    %    top color=yellow!10!white,
+    %    bottom color=green!10!white},
+    %interior engine=empty,
+    boxed title style={
+        %interior engine=empty,
+        bottom=2pt,
+        boxrule=0.75mm,
+        colframe=white,
+        borderline={0.3mm}{0mm}{green!50!#1},
+        borderline={0.3mm}{0.75mm}{green!50!#1},
+        interior style={
+            top color=white!10!#1,
+            bottom color=white!10!#1,
+            middle color=white!50!#1},
+        drop fuzzy shadow=#1},
+    title style={left color=black!50!#1,right color=blue!90!#1},
+    frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop lifted shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfiftyfive}{O{violet} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %top=0mm,
+    boxrule=0.5mm,
+    attach boxed title to top left={
+        xshift=1cm,
+        %yshift=-4mm,
+        yshift=-0.25mm-\tcboxedtitleheight/2,
+        yshifttext=2mm-\tcboxedtitleheight/2
+        },
+    %varwidth boxed title=0.7\linewidth,
+    %interior style={
+    %    top color=yellow!10!white,
+    %    bottom color=green!10!white},
+    %interior engine=empty,
+    boxed title style={
+        %interior engine=empty,
+        bottom=2pt,
+        boxrule=0.75mm,
+        colframe=white,
+        borderline={0.3mm}{0mm}{green!50!#1},
+        borderline={0.3mm}{0.75mm}{green!50!#1},
+        interior style={
+            top color=white!10!#1,
+            bottom color=white!10!#1,
+            middle color=white!50!#1},
+        drop fuzzy shadow=#1},
+    title style={left color=black!50!#1,right color=blue!90!#1},
+    frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop fuzzy shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfiftysix}{O{magenta} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %top=0mm,
+    boxrule=0.5mm,
+    attach boxed title to top left={
+        xshift=1cm,
+        %yshift=-4mm,
+        yshift=-0.25mm-\tcboxedtitleheight/2,
+        yshifttext=2mm-\tcboxedtitleheight/2
+        },
+    %varwidth boxed title=0.7\linewidth,
+    %interior style={
+    %    top color=yellow!10!white,
+    %    bottom color=green!10!white},
+    %interior engine=empty,
+    boxed title style={
+        %interior engine=empty,
+        bottom=2pt,
+        boxrule=0.75mm,
+        colframe=white,
+        borderline={0.3mm}{0mm}{green!50!#1},
+        borderline={0.3mm}{0.75mm}{green!50!#1},
+        interior style={
+            top color=white!10!#1,
+            bottom color=white!10!#1,
+            middle color=white!50!#1},
+        drop fuzzy shadow=#1},
+    title style={left color=black!50!#1,right color=blue!90!#1},
+    frame style={right color=black!25!#1,left color=blue!90!#1},
+    drop fuzzy midday shadow=#1,
+    title={#2},#4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfiftyseven}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %top=0mm,
+    boxrule=0.5mm,
+    detach title,
+    %before upper={ \tcbtitle\quad},
+    attach title to upper,
+    %before title={\xmybox{#2}},
+    after title={\ },
+    %flip title={
+    % %   interior hidden,
+    %    coltitle=white!95!#1,
+    %    },
+    %drop fuzzy midday shadow=#1,
+    title={\myboxnine[#1]{#2}},
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfiftyeight}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %top=0mm,
+    boxrule=0.5mm,
+    %detach title,
+    %before upper={ \tcbtitle\quad},
+    %attach title to upper,
+    %before title={\xmybox{#2}},
+    %after title={\ },
+    halign title=center,
+    %flip title={
+    %    interior hidden,
+    %    coltitle=white!95!#1,
+    %    },
+    %drop fuzzy midday shadow=#1,
+    title={#2},
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbfiftynine}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=2mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %top=0mm,
+    boxrule=0mm,
+    detach title,
+    %before upper={ \tcbtitle\quad},
+    attach title to upper,
+    %before title={\xmybox{#2}},
+    %after title={\ },
+    frame hidden,
+    %halign title=center,
+    borderline={1mm}{0mm}{#1,dotted},
+    %flip title={
+    %    interior hidden,
+    %    coltitle=white!95!#1,
+    %    },
+    %drop fuzzy midday shadow=#1,
+    title={\myboxnine[#1]{#2}\ },
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbsixty}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=0.8mm,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %top=0mm,
+    boxrule=0.8mm,
+    detach title,
+    %before upper={ \tcbtitle\quad},
+    attach title to upper,
+    %before title={\xmybox{#2}},
+    %after title={\ },
+    %halign title=center,
+    frame hidden,
+    interior hidden,
+    borderline={0.5mm}{0mm}{#1,dotted},
+    %flip title={
+    %    interior hidden,
+    %    coltitle=white!95!#1,
+    %    },
+    %drop fuzzy midday shadow=#1,
+    title={\myboxnine[#1]{#2}\ },
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbsixtyone}{O{blue} m d"" O{}}
+    {enhanced,
+    breakable,
+    %arc=2mm,
+    sharp corners,
+    colframe=#1,
+    colback=white!90!#1,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %top=0mm,
+    %boxrule=0mm,
+    detach title,
+    %before upper={ \tcbtitle\quad},
+    attach title to upper,
+    %before title={\xmybox{#2}},
+    %after title={\ },
+    %halign title=center,
+    frame hidden,
+    %interior hidden,
+    %leftrule=3pt,
+    %left skip=4mm,
+    %left=8mm,
+    %boxsep=15mm,
+    borderline west={0.8mm}{0mm}{#1},
+    %flip title={
+    %    interior hidden,
+    %    coltitle=white!95!#1,
+    %    },
+    %drop fuzzy midday shadow=#1,
+    title={\myboxnine[#1]{#2}\ },
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbsixtytwo}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    %arc=2mm,
+    sharp corners,
+    colframe=#1,
+    %colback=white!90!#1,
+    colback=yellow!10,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %top=0mm,
+    %boxrule=0mm,
+    detach title,
+    %before upper={ \tcbtitle\quad},
+    attach title to upper,
+    %before title={\xmybox{#2}},
+    %after title={\ },
+    %halign title=center,
+    frame hidden,
+    %interior hidden,
+    %leftrule=3pt,
+    %left skip=4mm,
+    %left=8mm,
+    %boxsep=15mm,
+    %borderline west={2mm}{0mm}{#1},
+    borderline horizontal={2pt}{0mm}{#1},
+    %flip title={
+    %    interior hidden,
+    %    coltitle=white!95!#1,
+    %    },
+    %drop fuzzy midday shadow=#1,
+    title={\myboxnine[#1]{#2}\ },
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbsixtythree}{O{blue} m d"" O{}}
+    {enhanced,
+    breakable,
+    %arc=2mm,
+    sharp corners,
+    colframe=#1,
+    colback=white!90!#1,
+    %colback=yellow!10,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %top=0mm,
+    %boxrule=0mm,
+    detach title,
+    %before upper={ \tcbtitle\quad},
+    attach title to upper,
+    %before title={\xmybox{#2}},
+    %after title={\ },
+    %halign title=center,
+    frame hidden,
+    %interior hidden,
+    %leftrule=3pt,
+    %left skip=4mm,
+    %left=8mm,
+    %boxsep=15mm,
+    %borderline west={2mm}{0mm}{#1},
+    %borderline horizontal={2pt}{0mm}{#1},
+    borderline vertical={2pt}{0mm}{#1},
+    %flip title={
+    %    interior hidden,
+    %    coltitle=white!95!#1,
+    %    },
+    %drop fuzzy midday shadow=#1,
+    title={\myboxnine[#1]{#2}\ },
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbsixtyfour}{O{blue} m d"" O{}}
+    {enhanced,
+    breakable,
+    %arc=2mm,
+    sharp corners,
+    colframe=#1,
+    %colback=white!90!#1,
+    colback=yellow!10,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %top=0mm,
+    %boxrule=0mm,
+    detach title,
+    %before upper={ \tcbtitle\quad},
+    attach title to upper,
+    %before title={\xmybox{#2}},
+    %after title={\ },
+    %halign title=center,
+    frame hidden,
+    %interior hidden,
+    %leftrule=3pt,
+    %left skip=4mm,
+    %left=8mm,
+    %boxsep=15mm,
+    %borderline west={2mm}{0mm}{#1},
+    %borderline horizontal={2pt}{0mm}{#1},
+    %borderline vertical={2pt}{0mm}{#1},
+    borderline north={1mm}{-2mm}{red!60!#1},
+    borderline south={1mm}{-2mm}{blue!60!#1},
+    borderline west={1mm}{-2mm}{teal!60!#1},
+    borderline east={1mm}{-2mm}{yellow!60!#1},
+    %flip title={
+    %    interior hidden,
+    %    coltitle=white!95!#1,
+    %    },
+    %drop fuzzy midday shadow=#1,
+    title={\myboxnine[#1]{#2}\ },
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbsixtyfive}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    %arc=2mm,
+    sharp corners,
+    colframe=#1,
+    %colback=white!90!#1,
+    colback=yellow!10,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    sharp corners,
+    boxsep=1pt,
+    attach boxed title to top left={
+        yshift=-\tcboxedtitleheight,
+        yshifttext=-1.05\baselineskip},
+    boxed title style={
+        boxsep=1pt,
+        sharp corners,
+        colback=#1,
+        bottom=2pt},
+    frame hidden,
+    top=1ex,
+    boxrule=0pt,
+    leftrule=1.4pt,
+    borderline west={2pt}{0pt}{#1},
+    %flip title={
+    %    interior hidden,
+    %    coltitle=white!95!#1,
+    %    },
+    %drop fuzzy midday shadow=#1,
+    title={#2},
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbsixtysix}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=8pt,
+    colframe=#1,
+    %colback=white!90!#1,
+    colback=yellow!10,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    boxsep=1pt,
+    attach boxed title to top left={
+        yshift=-\tcboxedtitleheight,
+        yshifttext=-1.05\baselineskip},
+    %frame hidden,
+    sharp corners=downhill,
+    top=1ex,
+    boxrule=1pt,
+    boxed title style={
+        boxsep=1pt,
+        sharp corners,
+        colback=#1,
+        bottom=2pt,
+        frame code={
+            \coordinate (A) at (frame.north east);
+            \coordinate (B) at (frame.south east);
+            \path[fill=#1]([xshift=3mm]frame.north east)--(frame.north west)--(frame.south west)--(frame.south east)--cycle;
+            },
+        interior engine=empty,
+        },
+    %leftrule=1.4pt,
+    %borderline west={2pt}{0pt}{#1},
+    %flip title={
+    %    interior hidden,
+    %    coltitle=white!95!#1,
+    %    },
+    %drop fuzzy midday shadow=#1,
+    title={#2},
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbsixtyseven}{O{cyan} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=8pt,
+    colframe=#1,
+    %colback=white!90!#1,
+    colback=yellow!10,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    boxsep=1pt,
+    attach boxed title to top left={
+        xshift=0cm,
+        yshift*=0mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=#1]
+             ([xshift=+0.5cm]frame.north east)[rounded corners=2mm]--(frame.north west)[sharp corners]--(frame.south west) --(frame.south east)to[out=0,in=180]cycle;
+             \draw[#1]([yshift=-0.5mm]frame.south west)--([yshift=-0.5mm,xshift=+0.4mm]frame.south east)to[out=0,in=180]([yshift=0mm,xshift=+0.58cm]frame.north east);
+             },
+        interior engine=empty,
+        },
+    drop fuzzy midday shadow=#1,
+    title={#2},
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbsixtyeight}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=8pt,
+    colframe=#1,
+    %colback=white!90!#1,
+    colback=yellow!10,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    boxsep=1pt,
+    attach boxed title to top left={
+        xshift=0cm,
+        yshift*=0mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=#1]
+             ([xshift=+0.5cm]frame.north east)[rounded corners=2mm]--(frame.north west)[sharp corners]--(frame.south west) --(frame.south east)to[out=0,in=180]cycle;
+             \draw[#1]([yshift=-0.5mm]frame.south west)--([yshift=-0.5mm,xshift=+0.4mm]frame.south east)to[out=0,in=180]([yshift=0mm,xshift=+0.58cm]frame.north east);
+             },
+        interior engine=empty,
+        },
+    %drop fuzzy midday shadow=#1,
+    title={#2},
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbsixtynine}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=8pt,
+    colframe=#1,
+    %colback=white!90!#1,
+    colback=yellow!10,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    boxsep=1pt,
+    attach boxed title to top left={
+        xshift=0cm,
+        yshift*=0mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=#1]
+             ([xshift=+0.5cm]frame.north east)[rounded corners=2mm]--(frame.north west)[sharp corners]--(frame.south west) --(frame.south east)to[out=0,in=180]cycle;
+             \draw[#1]([yshift=-0.5mm]frame.south west)--([yshift=-0.5mm,xshift=+0.4mm]frame.south east)to[out=0,in=180]([yshift=0mm,xshift=+0.58cm]frame.north east);
+             },
+        interior engine=empty,
+        },
+    drop fuzzy shadow=#1,
+    title={#2},
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbseventy}{O{teal} m d"" O{}}
+    {enhanced,
+    breakable,
+    arc=8pt,
+    colframe=#1,
+    %colback=white!90!#1,
+    colback=yellow!10,
+    colbacktitle=#1,
+    coltitle=white!95!#1,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    boxsep=1pt,
+    attach boxed title to top left={
+        xshift=0cm,
+        yshift*=0mm-\tcboxedtitleheight
+        },
+    %varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=#1]
+             ([xshift=+0.5cm]frame.north east)[rounded corners=2mm]--(frame.north west)[sharp corners]--(frame.south west) --(frame.south east)to[out=0,in=180]cycle;
+             \draw[#1]([yshift=-0.5mm]frame.south west)--([yshift=-0.5mm,xshift=+0.4mm]frame.south east)to[out=0,in=180]([yshift=0mm,xshift=+0.58cm]frame.north east);
+             },
+        interior engine=empty,
+        },
+    drop lifted shadow=#1,
+    title={#2},
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbseventyone}{O{\faHome} m d"" O{}}
+    {enhanced jigsaw,
+    breakable,
+    colframe=teal,
+    colback=yellow!10,
+    coltitle=teal,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %boxsep=1pt,
+    left skip=5mm,
+    overlay unbroken={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt]
+            ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+        \node[circle,
+            fill=tcbcolframe,
+            inner sep=4pt,
+            minimum size=0.8cm]
+            at ([xshift=-0.1cm]frame.north west){\color{white} \Large \bfseries #1};
+            },
+    overlay first={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+         \node[circle,
+            fill=tcbcolframe,
+            inner sep=4pt,
+            minimum size=0.8cm] at ([xshift=-0.1cm]frame.north west){\color{white} \Large  \bfseries #1};
+            },
+    overlay middle={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    overlay last={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    frame hidden,
+    interior engine=empty,
+    top=0.5cm,
+    fonttitle=\bfseries,
+    attach boxed title to top left={
+        xshift=0.8cm,
+        yshift=-0.3cm
+        },
+    boxed title style={
+        left=-2pt,
+        %righttitle=0.5cm,
+        right=-1pt,
+        frame hidden,
+        interior hidden,
+        borderline south={2pt}{-2pt}{tcbcolframe}},
+    %righttitle=0.5cm,
+    title={#2},
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbseventytwo}{O{\faHome} m d"" O{}}
+    {enhanced jigsaw,
+    breakable,
+    colframe=teal,
+    colback=yellow!10,
+    coltitle=teal,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %boxsep=1pt,
+    left skip=5mm,
+    overlay unbroken={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt]
+            ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+        \node[cloud,
+            fill=tcbcolframe,
+            inner sep=2pt,
+            minimum size=0.8cm]
+            at ([xshift=-0.1cm]frame.north west){\color{white} \Large \bfseries #1};
+            },
+    overlay first={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+         \node[cloud,
+            fill=tcbcolframe,
+            inner sep=2pt,
+            minimum size=0.8cm] at ([xshift=-0.1cm]frame.north west){\color{white} \Large  \bfseries #1};
+            },
+    overlay middle={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    overlay last={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    frame hidden,
+    interior engine=empty,
+    top=0.5cm,
+    fonttitle=\bfseries,
+    attach boxed title to top left={
+        xshift=0.8cm,
+        yshift=-0.3cm
+        },
+    boxed title style={
+        left=-2pt,
+        %righttitle=0.5cm,
+        right=-1pt,
+        frame hidden,
+        interior hidden,
+        borderline south={2pt}{-2pt}{tcbcolframe}},
+    %righttitle=0.5cm,
+    title={#2},
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbseventythree}{O{\faHome} m d"" O{}}
+    {enhanced jigsaw,
+    breakable,
+    colframe=teal,
+    colback=yellow!10,
+    coltitle=teal,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %boxsep=1pt,
+    left skip=5mm,
+    overlay unbroken={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt]
+            ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+        \node[starburst,
+            fill=tcbcolframe,
+            inner sep=2pt,
+            minimum size=0.8cm]
+            at ([xshift=-0.1cm]frame.north west){\color{white} \Large \bfseries #1};
+            },
+    overlay first={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+         \node[starburst,
+            fill=tcbcolframe,
+            inner sep=2pt,
+            minimum size=0.8cm] at ([xshift=-0.1cm]frame.north west){\color{white} \Large  \bfseries #1};
+            },
+    overlay middle={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    overlay last={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    frame hidden,
+    interior engine=empty,
+    top=0.5cm,
+    fonttitle=\bfseries,
+    attach boxed title to top left={
+        xshift=0.8cm,
+        yshift=-0.3cm
+        },
+    boxed title style={
+        left=-2pt,
+        %righttitle=0.5cm,
+        right=-1pt,
+        frame hidden,
+        interior hidden,
+        borderline south={2pt}{-2pt}{tcbcolframe}},
+    %righttitle=0.5cm,
+    title={#2},
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbseventyfour}{O{\faHome} m d"" O{}}
+    {enhanced jigsaw,
+    breakable,
+    colframe=teal,
+    colback=yellow!10,
+    coltitle=teal,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %boxsep=1pt,
+    left skip=5mm,
+    overlay unbroken={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt]
+            ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+        \node[diamond,
+        rounded corners,
+            fill=tcbcolframe,
+            inner sep=2pt,
+            minimum size=0.8cm]
+            at ([xshift=-0.1cm]frame.north west){\color{white} \Large \bfseries #1};
+            },
+    overlay first={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+         \node[diamond,
+         rounded corners,
+            fill=tcbcolframe,
+            inner sep=2pt,
+            minimum size=0.8cm] at ([xshift=-0.1cm]frame.north west){\color{white} \Large  \bfseries #1};
+            },
+    overlay middle={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    overlay last={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    frame hidden,
+    interior engine=empty,
+    top=0.5cm,
+    fonttitle=\bfseries,
+    attach boxed title to top left={
+        xshift=0.8cm,
+        yshift=-0.3cm
+        },
+    boxed title style={
+        left=-2pt,
+        %righttitle=0.5cm,
+        right=-1pt,
+        frame hidden,
+        interior hidden,
+        borderline south={2pt}{-2pt}{tcbcolframe}},
+    %righttitle=0.5cm,
+    title={#2},
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTColorBox{xtcbseventyfive}{O{\faHome} m d"" O{}}
+    {enhanced jigsaw,
+    breakable,
+    colframe=teal,
+    colback=yellow!10,
+    coltitle=teal,
+    fonttitle=\bfseries,
+    IfValueTF={#3}{watermark text={#3}}{},
+    before skip=2mm,
+    after skip=2mm,
+    %boxsep=1pt,
+    left skip=5mm,
+    overlay unbroken={
+        \draw[fill=yellow!10,draw=tcbcolframe]
+            ([xshift=-0.2cm]frame.north west)rectangle(frame.south east);
+        \node[circle,
+        rounded corners,
+            fill=tcbcolframe,
+            inner sep=2pt,
+            minimum size=0.8cm]
+            at ([xshift=-0.1cm]frame.north west){\color{white} \Large \bfseries #1};
+            },
+    overlay first={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south east);
+         \node[circle,
+         rounded corners,
+            fill=tcbcolframe,
+            inner sep=2pt,
+            minimum size=0.8cm] at ([xshift=-0.1cm]frame.north west){\color{white} \Large  \bfseries #1};
+            },
+    overlay middle={
+        \fill[top color=orange!85!tcbcolframe,
+            bottom color=cyan!15!tcbcolframe,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south west);
+            },
+    overlay last={
+        \fill[top color=orange!85,
+            bottom color=cyan!15,
+            line width=10pt] ([xshift=-0.2cm]frame.north west)rectangle(frame.south east);
+            },
+    frame hidden,
+    interior engine=empty,
+    %top=0.5cm,
+    fonttitle=\bfseries,
+    detach title,
+    %before upper={ \tcbtitle\quad},
+    attach title to upper,
+    %attach boxed title to top left={
+    %    xshift=0.8cm,
+    %    yshift=-0.5cm
+    %    },
+    %righttitle=0.5cm,
+    title={\myboxnine{#2}\ },
+    #4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%--CÁC KHAI BÁO HỘP CÓ CHỨA CODE--%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtcblisting{listtcbone}[2][]{%
+    enhanced,
+    lower separated=true,
+    before skip=2mm,
+    after skip=2mm,
+    colback=yellow!20,colframe=black!50,boxrule=0.2mm,
+    attach boxed title to top={xshift=0cm,yshift*=1mm-\tcboxedtitleheight},
+    varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=red]
+                ([yshift=-1mm,xshift=-1mm]frame.north west)
+                arc[start angle=0,end angle=180,radius=1mm]
+                ([yshift=-1mm,xshift=1mm]frame.north east)
+                arc[start angle=180,end angle=0,radius=1mm];
+            \path[top color=cyan, bottom color=cyan, middle color=cyan!50!black]
+                ([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)
+                [rounded corners=1mm]-- ([xshift=1mm,yshift=-1mm]frame.north east)
+                -- (frame.south east) -- (frame.south west)
+                -- ([xshift=-1mm,yshift=-1mm]frame.north west)
+                [sharp corners]-- cycle;
+                },
+        interior engine=empty,
+        },
+    fonttitle=\bfseries,
+    drop lifted shadow=gray,
+  listing options={
+    style=tcblatex,
+    texcsstyle=*\color{blue},
+    %keywordstyle=\color{yellow},
+    commentstyle=\color{DarkGreen},
+    stringstyle=\color{Maroon},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3,
+    aboveskip=0pt,
+    belowskip=0pt,
+    nolol,
+    extendedchars=true,
+    columns=fullflexible,
+    %numbers=left,
+    %numberstyle=\tiny\color{red!75!black},
+    },
+  %after upper={\par\bigskip\texttt{\ldots}\par},
+  before upper={\par\vskip-2mm\par},
+  pdf comment,
+  comment style={drop lifted shadow},
+  sidebyside,
+  %sidebyside gap=1cm,
+  raster columns=1,
+  %minted options={fontfamily=cmss,fontsize=\small},
+  title=#2,#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%END OF khaibao-tcolorbox%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  

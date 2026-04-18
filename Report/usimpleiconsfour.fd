@@ -1,0 +1,6 @@
+
+        \ProvidesFile{usimpleiconsfour.fd}[2023/08/21 Font definitions for U/simpleiconsfour.]
+        \DeclareFontFamily{U}{simpleiconsfour}{}
+        \DeclareFontShape{U}{simpleiconsfour}{m}{n}{<-> SimpleIcons--simpleiconsfour}{}
+        \endinput
+        

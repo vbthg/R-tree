@@ -1,0 +1,6 @@
+
+        \ProvidesFile{usimpleiconsthree.fd}[2023/08/21 Font definitions for U/simpleiconsthree.]
+        \DeclareFontFamily{U}{simpleiconsthree}{}
+        \DeclareFontShape{U}{simpleiconsthree}{m}{n}{<-> SimpleIcons--simpleiconsthree}{}
+        \endinput
+        

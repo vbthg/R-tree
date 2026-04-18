@@ -1,0 +1,6 @@
+
+        \ProvidesFile{usimpleiconsseven.fd}[2023/08/21 Font definitions for U/simpleiconsseven.]
+        \DeclareFontFamily{U}{simpleiconsseven}{}
+        \DeclareFontShape{U}{simpleiconsseven}{m}{n}{<-> SimpleIcons--simpleiconsseven}{}
+        \endinput
+        

@@ -1,5 +1,5 @@
-#include "Benchmark.h"
-#include "R-Tree.h"
+#include "header/Benchmark.h"
+#include "header/R-tree.h"
 #include <iostream>
 #include <fstream>
 #include <filesystem>
