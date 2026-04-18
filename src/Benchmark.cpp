@@ -76,5 +76,21 @@ void Benchmark::runFullSuite(const string& directoryPath, const string& reportPa
             results.push_back(res);
             cout << "Finished benchmarking: " << res.filename << endl;
         }
+
+        // Xuat bao cao ra file Markdown
+        ofstream outFile(reportPath);
+        outFile << "# R-Tree Performance Report" << endl << endl;
+        outFile << "| Dataset | Points (N) | Build Time (ms) | Avg Query (us) | Memory (MB) |" << endl;
+        outFile << "| :--- | :--- | :--- | :--- | :--- |" << endl;
+
+        for(const auto& r : results)
+        {
+            outFile << "| " << r.filename
+                    << " | " << r.n
+                    << " | " << r.buildTimeMs
+                    << " | " << r.rtreeQueryUs
+                    << " | " << fixed << setprecision(2) << r.memoryMb << " |" << endl;
+        }
+        outFile.close();
     }
 }
