@@ -1,5 +1,5 @@
 #pragma once
-#include "R-Tree.h"
+#include "r-Tree.h"
 #include <vector>
 
 class Validator
