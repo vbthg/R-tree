@@ -2,9 +2,9 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include "r-tree.h"
-#include "Benchmark.h"
-#include "Validator.h"
+#include "header/r-tree.h"
+#include "header/Benchmark.h"
+#include "header/Validator.h"
 
 using namespace std;
 
